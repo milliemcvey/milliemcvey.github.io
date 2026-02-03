@@ -14,6 +14,8 @@ div {
 }
 body{
     background-color: rgb(27, 27, 27);
+    width: 100vw;
+    overflow-x: hidden;
 }
 .btn {
     text-decoration: none;
@@ -112,13 +114,14 @@ h3{
     /*Positioning & Layout*/
     display: flex;
     flex-direction: row;
-    width: 100%;
+    width: 75vw;
     bottom: 0;
     height: 18vh;
     align-items: center;
     gap: 50%;
-    padding-left: 20%;
+    padding-left: 25%;
     line-height: 1.5;
+    overflow: hidden;
 }
 .footer ul{
     list-style: none;
@@ -203,4 +206,58 @@ h3{
     gap: 2%;
     background-color: black;
     padding: 2%;
+}
+
+/*------------Academic Callout Styling------------*/
+.academic-callout-section{
+    display: flex;
+    width: 100vw;
+    overflow: hidden;
+} 
+.academic-callout-left{
+    width: 40%;
+    height: 45vh;
+}
+.academic-callout-left img{
+    width: 100%;
+    height: 100%;
+}
+.academic-callout-right{
+    padding: 8%;
+    width: 55%;
+}
+.academic-callout-right h2{
+    margin: 3%;
+    margin-top: 1.5%;
+    font-size: 2.5em;
+}
+.academic-callout-right p{
+    font-size: 1.35em;
+}
+
+/*------------Project Callout Styling------------*/
+.project-callout-section{
+    display: flex;
+    width: 100vw;
+    overflow: hidden;
+} 
+.project-callout-right{
+    width: 40%;
+    height: 45vh;
+}
+.project-callout-right img{
+    width: 100%;
+    height: 100%;
+}
+.project-callout-left{
+    padding: 8%;
+    width: 55%;
+}
+.project-callout-left h2{
+    margin: 3%;
+    margin-top: 1.5%;
+    font-size: 2.5em;
+}
+.project-callout-left p{
+    font-size: 1.35em;
 }
