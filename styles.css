@@ -10,6 +10,7 @@
 9. Callout Styling
 10. Small Callout Styling
 11. Language Bar Styling
+12. Further Info Bar Styling
 -----------------------------*/
 
 /*------------ 1. Fonts------------*/
@@ -183,11 +184,11 @@ h3{
 }
 
 /*------------ 7. Homepage Header Styling------------*/
-    .homepage-header{
-        height: 65vh;
-        align-content: center;
-        background-image: linear-gradient(to bottom right, rgb(51, 51, 51), rgb(109, 109, 109));
-    }
+.homepage-header{
+    height: 65vh;
+    align-content: center;
+    background-image: linear-gradient(to bottom right, rgb(51, 51, 51), rgb(109, 109, 109));
+}
 
 /*------------ 8. Card Bar Styling------------*/
 .bar-card{
@@ -350,5 +351,21 @@ h3{
 .language-bar svg{
     height: 80%;
     width: 30%;
-    margin: 
+}
+
+/*------------ 12. Further Info Bar Styling------------*/
+
+.further-info-bar{
+    height: 25vh;
+    align-content: center;
+    background-color: pink;
+    padding-bottom: 2%;
+}
+.further-info-bar .btn {
+    padding: .25% 1%;
+}
+.further-info-bar h3{
+    margin: 2%;
+    font-size: 1.75em;
+    color:rgb(27, 27, 27);
 }
