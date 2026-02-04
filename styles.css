@@ -170,7 +170,7 @@ h3{
 
 /*------------Homepage Header Styling------------*/
     .homepage-header{
-        height: 55vh;
+        height: 65vh;
         align-content: center;
         background-image: linear-gradient(to bottom right, rgb(51, 51, 51), rgb(109, 109, 109));
     }
