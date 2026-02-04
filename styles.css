@@ -213,10 +213,10 @@ h3{
     display: flex;
     width: 100vw;
     overflow: hidden;
+    border: 2px solid white;
 } 
 .left-callout-left{
     width: 40%;
-    height: 45vh;
 }
 .left-callout-left img{
     width: 100%;
@@ -238,10 +238,10 @@ h3{
     display: flex;
     width: 100vw;
     overflow: hidden;
+    border: 2px solid white;
 } 
 .right-callout-right{
     width: 40%;
-    height: 45vh;
 }
 .right-callout-right img{
     width: 100%;
@@ -265,6 +265,7 @@ h3{
     display: flex;
     width: 100vw;
     overflow: hidden;
+    border: 2px solid white;
 } 
 .left-callout-left-s{
     width: 40%;
@@ -277,7 +278,6 @@ h3{
 .left-callout-right-s{
     padding: 2%;
     width: 55%;
-    height: 25vh;
 }
 .left-callout-right-s h2{
     margin: 3%;
@@ -291,6 +291,7 @@ h3{
     display: flex;
     width: 100vw;
     overflow: hidden;
+    border: 2px solid white;
 } 
 .right-callout-right-s{
     width: 40%;
@@ -303,7 +304,6 @@ h3{
 .right-callout-left-s{
     padding: 2%;
     width: 55%;
-    height: 25vh;
 }
 .right-callout-left-s h2{
     margin: 3%;
