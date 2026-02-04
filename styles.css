@@ -208,7 +208,7 @@ h3{
     padding: 2%;
 }
 
-/*------------Academic Callout Styling------------*/
+/*------------ Callout Styling------------*/
 .left-callout-section{
     display: flex;
     width: 100vw;
@@ -234,8 +234,6 @@ h3{
 .left-callout-right p{
     font-size: 1.35em;
 }
-
-/*------------Project Callout Styling------------*/
 .right-callout-section{
     display: flex;
     width: 100vw;
@@ -260,4 +258,58 @@ h3{
 }
 .right-callout-left p{
     font-size: 1.35em;
+}
+
+/*------------ Small Callout Styling------------*/
+.left-callout-section-s{
+    display: flex;
+    width: 100vw;
+    overflow: hidden;
+} 
+.left-callout-left-s{
+    width: 40%;
+    height: 25vh;
+}
+.left-callout-left-s img{
+    width: 100%;
+    height: 100%;
+}
+.left-callout-right-s{
+    padding: 2%;
+    width: 55%;
+    height: 25vh;
+}
+.left-callout-right-s h2{
+    margin: 3%;
+    margin-top: 1.5%;
+    font-size: 2.25em;
+}
+.left-callout-right-s p{
+    font-size: 1.15em;
+}
+.right-callout-section-s{
+    display: flex;
+    width: 100vw;
+    overflow: hidden;
+} 
+.right-callout-right-s{
+    width: 40%;
+    height: 25vh;
+}
+.right-callout-right-s img{
+    width: 100%;
+    height: 100%;
+}
+.right-callout-left-s{
+    padding: 2%;
+    width: 55%;
+    height: 25vh;
+}
+.right-callout-left-s h2{
+    margin: 3%;
+    margin-top: 1.5%;
+    font-size: 2.25em;
+}
+.right-callout-left-s p{
+    font-size: 1.15em;
 }
