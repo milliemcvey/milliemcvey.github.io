@@ -1,7 +1,21 @@
-/*------------Fonts------------*/
+/*-----------INDEX------------
+1. Fonts & Imports
+2. Universal Styling
+3. Header Styling
+4. NavBar Styling
+5. Footer Styling
+6. Loading Screen Styling
+7. Homepage Header Styling
+8. Card Bar Styling
+9. Callout Styling
+10. Small Callout Styling
+11. Language Bar Styling
+-----------------------------*/
+
+/*------------ 1. Fonts------------*/
 @import url('https://fonts.googleapis.com/css2?family=SN+Pro:ital,wght@0,200..900;1,200..900&display=swap');
 
-/*------------Universal Styling------------*/
+/*------------ 2. Universal Styling------------*/
 * {
     margin: 0;
     padding: 0;
@@ -46,7 +60,7 @@ body{
     transition: linear 0.3s;
 }
 
-/*------------Header Styling------------*/
+/*------------ 3. Header Styling------------*/
 h1{
     font-size: 3.75em;
     letter-spacing: .05em;
@@ -58,7 +72,7 @@ h3{
     font-size: 1.5em;
 }
 
-/*------------NavBar Styling------------*/
+/*------------ 4. NavBar Styling------------*/
 .navbar{
     /*Formatting & Styling*/
     color: white;
@@ -103,7 +117,7 @@ h3{
     transition: linear 0.3s;
 }
 
-/*------------Footer Styling------------*/
+/*------------ 5. Footer Styling------------*/
 .footer{
     /*Formatting & Styling*/
     color: white;
@@ -139,7 +153,7 @@ h3{
     color:rgb(241, 78, 193);
 }
 
-/*------------Loading Screen Styling------------*/
+/*------------ 6. Loading Screen Styling------------*/
 .loading-screen-window{
     /*Window Size & Positioning*/
     align-content: center;
@@ -168,17 +182,17 @@ h3{
     color: white;
 }
 
-/*------------Homepage Header Styling------------*/
+/*------------ 7. Homepage Header Styling------------*/
     .homepage-header{
         height: 65vh;
         align-content: center;
         background-image: linear-gradient(to bottom right, rgb(51, 51, 51), rgb(109, 109, 109));
     }
 
-/*------------Card Bar Styling------------*/
+/*------------ 8. Card Bar Styling------------*/
 .bar-card{
     /*Formatting & Styling*/
-    border: 4px solid rgb(241, 78, 193);
+    border: 4px solid #f14ec1;
     color: black;
     background-color: white;
     width: 15%;
@@ -208,7 +222,7 @@ h3{
     padding: 2%;
 }
 
-/*------------ Callout Styling------------*/
+/*------------ 9. Callout Styling------------*/
 .left-callout-section{
     display: flex;
     width: 100vw;
@@ -260,7 +274,7 @@ h3{
     font-size: 1.35em;
 }
 
-/*------------ Small Callout Styling------------*/
+/*------------ 10. Small Callout Styling------------*/
 .left-callout-section-s{
     display: flex;
     width: 100vw;
@@ -312,4 +326,19 @@ h3{
 }
 .right-callout-left-s p{
     font-size: 1.15em;
+}
+
+/*------------ 11. Language Bar Styling------------*/
+.language-bar{
+    height: 25vh;
+    display: flex;
+    align-items: center;
+    gap: 1%;
+    background-color: black;
+    padding: 2% 10%;
+}
+.language-bar svg{
+    height: 80%;
+    width: 30%;
+    margin: 
 }
