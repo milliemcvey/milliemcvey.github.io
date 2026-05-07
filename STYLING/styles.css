@@ -1,0 +1,111 @@
+/* =========================
+   TEMPORARY DIV BORDERS
+========================= */
+.main-div {
+    border: dashed green 1px;
+}
+.secondary-div {
+    border: dashed blue 1px;
+}
+
+/* =========================
+   ROOT COLORS / THEME
+========================= */
+:root {
+
+  /* Main Colors */
+  --primary-color: #4facfe;
+  --secondary-color: #00f2fe;
+
+  /* Backgrounds */
+  --background-color: #f4f4f4;
+  --section-color: #ffffff;
+  --footer-color: #111111;
+
+  /* Text Colors */
+  --text-color: #333333;
+  --light-text: #ffffff;
+  --muted-text: #777777;
+
+  /* Buttons */
+  --button-color: #4facfe;
+  --button-hover: #1e90ff;
+
+  /* Cards */
+  --card-background: #ffffff;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+
+  /* Borders */
+  --border-color: #dddddd;
+
+  /* Navbar */
+  --navbar-background: #111111;
+  --navbar-text: #ffffff;
+
+  /* Effects */
+  --border-radius: 10px;
+  --transition-speed: 0.3s;
+
+}
+/* =========================
+   UNIVERSAL STYLING
+========================= */
+    * {
+        margin: 0;
+    }
+
+/* =========================
+   HEADERS STYLING
+========================= */
+
+
+/* =========================
+   NAVIGATION STYLING
+========================= */
+
+
+/* =========================
+   HOMEPAGE STYLING
+========================= */
+    .hero-section-homepage {
+        background-image: url("https://placehold.co/1960x650");
+        height: 65vh;
+    }
+
+/* =========================
+   BANNER STYLING
+========================= */
+    .banner {
+        height: 30vh;
+        padding: 2% 8%;
+        display: flex;
+        justify-content: center;
+        gap: 2%;
+    }
+
+    /*CARD BANNER*/
+    .card {
+        border: red 1px dashed;
+        height: 30vh;
+    }
+
+    /*ICON BANNER*/
+    .icon-banner {
+        height: 20vh;
+        align-content: center;
+        gap: 2%;
+    }
+
+/* =========================
+   INFO SECTION STYLING
+========================= */
+    .info-section {
+        height: 55vh;
+    }
+
+/* =========================
+   FOOTER STYLING
+========================= */
+    footer {
+        height: 15vh;
+    }
