@@ -57,12 +57,34 @@
 /* =========================
    HEADERS STYLING
 ========================= */
-
+h1 {
+    font-size: 4.2em;
+    text-align: center;
+}
+h2 {
+    font-size: 2.5em;
+    padding-bottom: 1%;
+    text-align: center;
+}
+h3 {
+    font-size: 2em;
+    text-align: center;
+    padding-bottom: .8%;
+}
 
 /* =========================
    NAVIGATION STYLING
 ========================= */
 
+ 
+/* =========================
+   NAVIGATION STYLING
+========================= */
+    .btn-box {
+        margin: 3% 0;
+        padding: 1%;
+        align-items: center;
+    }
 
 /* =========================
    HOMEPAGE STYLING
@@ -93,16 +115,22 @@
     .icon-banner {
         height: 20vh;
         align-content: center;
-        gap: 2%;
+        gap: 2.5 vw;
     }
 
 /* =========================
    INFO SECTION STYLING
 ========================= */
     .info-section {
-        height: 55vh;
+        padding: 10% 5%;
+        align-items: center;
+        justify-content: center;
     }
-
+    .info-section-content {
+        width: 40%;
+        line-height: 1.5;
+        margin: 0 auto;
+    }
 /* =========================
    FOOTER STYLING
 ========================= */
