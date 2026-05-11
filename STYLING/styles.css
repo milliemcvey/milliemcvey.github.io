@@ -52,8 +52,22 @@
 ========================= */
     * {
         margin: 0;
+        text-align: center;
     }
-
+    .btn-box {
+        margin: 3% 0;
+        padding: 1%;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+    }
+    .btn {
+        margin: 1%;
+    }
+    div {
+        
+    }
+    
 /* =========================
    HEADERS STYLING
 ========================= */
@@ -76,15 +90,6 @@ h3 {
    NAVIGATION STYLING
 ========================= */
 
- 
-/* =========================
-   NAVIGATION STYLING
-========================= */
-    .btn-box {
-        margin: 3% 0;
-        padding: 1%;
-        align-items: center;
-    }
 
 /* =========================
    HOMEPAGE STYLING
@@ -98,7 +103,7 @@ h3 {
    BANNER STYLING
 ========================= */
     .banner {
-        height: 30vh;
+        height: 35vh;
         padding: 2% 8%;
         display: flex;
         justify-content: center;
@@ -106,9 +111,27 @@ h3 {
     }
 
     /*CARD BANNER*/
+    .card-banner {
+        display: flex;
+        flex-direction: row;
+    }
     .card {
         border: red 1px dashed;
-        height: 30vh;
+        text-align: center;
+        width: 15vw;
+    }
+    .card img {
+        width: 100%;
+    }
+    .card-contents{
+        padding: 2% 4%;
+        border: 1px dashed red;
+    }
+    .card h3{
+        padding: 4% .5%;
+    }
+    .card .btn {
+        margin: 2% .5%;
     }
 
     /*ICON BANNER*/
