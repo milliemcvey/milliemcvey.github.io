@@ -1,12 +1,12 @@
 /* =========================
    TEMPORARY DIV BORDERS
 ========================= */
-.main-div {
+/*.main-div {
     border: dashed green 1px;
 }
 .secondary-div {
     border: dashed blue 1px;
-}
+}*/
 
 /* =========================
    ROOT COLORS / THEME
@@ -20,6 +20,7 @@
   /* Backgrounds */
   --background-color: #f4f4f4;
   --section-color: #ffffff;
+  --section-color-2: #272727;
   --footer-color: #111111;
 
   /* Text Colors */
@@ -48,21 +49,41 @@
 
 }
 /* =========================
+    FONTS IMPORT
+========================= */
+    @import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+/* =========================
    UNIVERSAL STYLING
 ========================= */
     * {
         margin: 0;
         text-align: center;
+        color: var(--text-color);
+        font-family: "Open Sans", sans-serif;
     }
     .btn-box {
-        margin: 3% 0;
-        padding: 1%;
+        padding-top: 1%;
         align-items: center;
         justify-content: center;
         display: flex;
+        margin: 2%;
     }
     .btn {
-        margin: 1%;
+        /*Structure*/
+        font-size: 1.1em;
+        border-radius: 10px;
+        margin: .5%;
+        padding: .5% 2%;
+        min-width: 6vw;
+        min-height: 3vh;
+        justify-content: center;
+        align-content: center;
+        /*Colour*/
+        background-color: var(--button-color);
+        color: var(--light-text);
+        border: none;
     }
     div {
         
@@ -71,34 +92,60 @@
 /* =========================
    HEADERS STYLING
 ========================= */
-h1 {
-    font-size: 4.2em;
-    text-align: center;
-}
-h2 {
-    font-size: 2.5em;
-    padding-bottom: 1%;
-    text-align: center;
-}
-h3 {
-    font-size: 2em;
-    text-align: center;
-    padding-bottom: .8%;
-}
-
+    h1 {
+        font-size: 4.2em;
+        text-align: center;
+    }
+    h2 {
+        font-size: 3.25em;
+        padding-bottom: 1%;
+        text-align: center;
+    }
+    h3 {
+        font-size: 2.25em;
+        text-align: center;
+        padding-bottom: .8%;
+    }
+    p {
+        font-size: 1.3em;
+    }
 /* =========================
    NAVIGATION STYLING
 ========================= */
-
-
+    .nav {
+        background-color: var(--navbar-color);
+        color: var(--navbar-text);
+        display: flex;
+        align-items: center;
+    }
+    .nav a {
+        text-decoration: none;
+    }
+    .nav ul {
+        list-style: none;
+        display: flex;
+        gap: 6vw;
+        font-size: 1.25em;
+    }
+    .nav h2 {
+        margin: .5%;
+        margin-left: 8vw;
+        margin-top: 1.25%;
+        margin-right: 4vw;
+    }
 /* =========================
    HOMEPAGE STYLING
 ========================= */
     .hero-section-homepage {
         background-image: url("https://placehold.co/1960x650");
         height: 65vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
-
+    .hero-content{
+        justify-content: center;
+    }
 /* =========================
    BANNER STYLING
 ========================= */
@@ -107,38 +154,49 @@ h3 {
         padding: 2% 8%;
         display: flex;
         justify-content: center;
-        gap: 2%;
+        gap: 2.5%;
+        background-color: var(--section-color);
     }
-
     /*CARD BANNER*/
     .card-banner {
         display: flex;
         flex-direction: row;
+        height: fit-content;
     }
     .card {
-        border: red 1px dashed;
         text-align: center;
         width: 15vw;
+        height: fit-content;
+        background-color: var(--card-background);
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 15px;
     }
     .card img {
         width: 100%;
+        border-radius: 15px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
     }
     .card-contents{
-        padding: 2% 4%;
-        border: 1px dashed red;
+        padding: 7% 10%;
     }
     .card h3{
-        padding: 4% .5%;
+        padding: 1%;
+        padding-bottom: 5%;
+    }
+    .card p{
+        font-size: 1.1em;
+        padding: 2% .5%;
     }
     .card .btn {
-        margin: 2% .5%;
+        margin: 3% .5%;
     }
-
     /*ICON BANNER*/
     .icon-banner {
         height: 20vh;
         align-content: center;
         gap: 2.5 vw;
+        background-color: var(--section-color-2);
     }
 
 /* =========================
@@ -148,6 +206,7 @@ h3 {
         padding: 10% 5%;
         align-items: center;
         justify-content: center;
+        background-color: var(--secondary-color);
     }
     .info-section-content {
         width: 40%;
@@ -159,4 +218,6 @@ h3 {
 ========================= */
     footer {
         height: 15vh;
+        background-color: var(--footer-color);
+        color: var(--light-text);
     }
