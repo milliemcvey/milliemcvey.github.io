@@ -95,6 +95,9 @@
         color: var(--secondary-color);
         transition: linear .5s;
     }
+    wrap {
+        color: var(--secondary-color);
+    }
 /* =========================
    HEADERS STYLING
 ========================= */
@@ -256,7 +259,7 @@
    INFO SECTION STYLING
 ========================= */
     .info-section {
-        padding: 10% 5%;
+        padding: 12% 5%;
         align-items: center;
         justify-content: center;
         background-color: var(--secondary-color);
