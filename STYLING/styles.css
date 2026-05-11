@@ -75,20 +75,26 @@
         font-size: 1.1em;
         border-radius: 10px;
         margin: .5%;
-        padding: .5% 2%;
+        padding: 1.8% 2%;
         min-width: 6vw;
         min-height: 3vh;
         justify-content: center;
         align-content: center;
         /*Colour*/
-        background-color: var(--button-color);
+        background-color: var(--section-color-2);
         color: var(--light-text);
-        border: none;
+        border: 2px solid var(--section-color-2);
     }
-    div {
-        
+    .btn:hover {
+        background-color: var(--light-text);
+        border: 2px solid var(--section-color-2);
+        color: var(--section-color-2);
+        transition: linear .25s;
     }
-    
+    a:hover{
+        color: var(--secondary-color);
+        transition: linear .5s;
+    }
 /* =========================
    HEADERS STYLING
 ========================= */
@@ -113,8 +119,7 @@
    NAVIGATION STYLING
 ========================= */
     .nav {
-        background-color: white;
-        color: var(--navbar-text);
+        background-color: var(--section-color-2);
         display: flex;
         align-items: center;
         position: sticky;
@@ -125,18 +130,25 @@
     }
     .nav a {
         text-decoration: none;
+        color: var(--light-text);
     }
     .nav ul {
         list-style: none;
         display: flex;
         gap: 6vw;
         font-size: 1.25em;
+        color: var(--light-text);
     }
     .nav h2 {
         margin: .5%;
         margin-left: 8vw;
         margin-top: 1.25%;
         margin-right: 4vw;
+        color: var(--light-text);
+    }
+    .nav a:hover{
+        color: var(--secondary-color);
+        transition: linear .5s;
     }
 /* =========================
    HOMEPAGE STYLING
@@ -147,6 +159,9 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+    }
+    .hero-section-homepage .btn{
+        padding: .8% 2%;
     }
     .hero-content{
         justify-content: center;
@@ -287,7 +302,7 @@
 /* =========================
    LARGE LAPTOPS / SMALL DESKTOPS
 ========================= */
-@media screen and (max-width: 1440px) {
+    @media screen and (max-width: 1440px) {
 
     h1 {
         font-size: 3.8em;
@@ -309,11 +324,10 @@
         gap: 25vw;
     }
 }
-
 /* =========================
    TABLETS / SMALL LAPTOPS
 ========================= */
-@media screen and (max-width: 1024px) {
+    @media screen and (max-width: 1024px) {
 
     /* Typography */
     h1 {
@@ -410,11 +424,10 @@
         text-align: center;
     }
 }
-
 /* =========================
    TABLETS / LARGE PHONES
 ========================= */
-@media screen and (max-width: 768px) {
+    @media screen and (max-width: 768px) {
 
     /* Typography */
     h1 {
@@ -488,11 +501,10 @@
         font-size: 1.2em;
     }
 }
-
 /* =========================
    MOBILE DEVICES
 ========================= */
-@media screen and (max-width: 480px) {
+    @media screen and (max-width: 480px) {
 
     /* Typography */
     h1 {
@@ -585,7 +597,6 @@
         gap: 4vh;
     }
 }
-
 /* =========================
    EXTRA SMALL DEVICES
 ========================= */
