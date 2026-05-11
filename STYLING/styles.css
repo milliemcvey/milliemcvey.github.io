@@ -121,6 +121,7 @@
         top: 0;
         overflow: hidden;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        z-index: 100;
     }
     .nav a {
         text-decoration: none;
@@ -206,22 +207,26 @@
     .info-banner{
         display: flex;
         align-content: center;
-        padding: 0 12%;
+        padding: 0 11.25%;
         gap: 0;
         background-color: var(--section-color-2);
         border-bottom: 20px solid var(--section-color-2);
         border-top: 20px solid var(--section-color-2);
+        
     }
     .info-banner-left{
         width: 30vw;
         align-content: center;
         background-color: var(--secondary-color);
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.14);
+        z-index: 10;
     }
     .info-banner-right{
         width: 55vw;
         align-content: center;
         padding: 4%;
         background-color: var(--background-color);
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.14);
     }
     .projects-info-banner{
         display: flex;
@@ -251,6 +256,366 @@
 ========================= */
     footer {
         height: 15vh;
-        background-color: var(--footer-color);
+        background-color: var(--section-color-2);
+        padding: 2% 8vw;
+        font-size: .75em;
+        align-content: center;
+        line-height: 2.5em;
+    }
+    footer p{
         color: var(--light-text);
+    }
+    footer a{
+        color: var(--light-text);
+        text-decoration: none;
+    }
+    footer ul{
+        list-style: none;
+        font-size: 1.5em;
+    }
+    /*Footer Segments*/
+    .footer-content{
+        display: flex;
+        justify-content: center;
+        gap: 40vw;
+    }
+
+/* ==========================================
+   RESPONSIVE MEDIA QUERIES
+============================================= */
+
+/* =========================
+   LARGE LAPTOPS / SMALL DESKTOPS
+========================= */
+@media screen and (max-width: 1440px) {
+
+    h1 {
+        font-size: 3.8em;
+    }
+
+    h2 {
+        font-size: 3em;
+    }
+
+    h3 {
+        font-size: 2em;
+    }
+
+    .card {
+        width: 20vw;
+    }
+
+    .footer-content {
+        gap: 25vw;
+    }
+}
+
+/* =========================
+   TABLETS / SMALL LAPTOPS
+========================= */
+@media screen and (max-width: 1024px) {
+
+    /* Typography */
+    h1 {
+        font-size: 3.2em;
+    }
+
+    h2 {
+        font-size: 2.5em;
+    }
+
+    h3 {
+        font-size: 1.8em;
+    }
+
+    p {
+        font-size: 1.1em;
+    }
+
+    /* Navigation */
+    .nav {
+        flex-direction: column;
+        padding: 2%;
+    }
+
+    .nav h2 {
+        margin: 2%;
+    }
+
+    .nav ul {
+        gap: 4vw;
+        padding-bottom: 2%;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    /* Hero */
+    .hero-section-homepage {
+        height: 55vh;
+        padding: 0 5%;
+    }
+
+    /* Banner */
+    .banner {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 5%;
+    }
+
+    .card-banner {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 3%;
+    }
+
+    .card {
+        width: 40%;
+        margin-bottom: 4%;
+    }
+
+    /* Info Banner */
+    .info-banner,
+    .projects-info-banner {
+        flex-direction: column;
+        padding: 5%;
+    }
+
+    .info-banner-left,
+    .info-banner-right {
+        width: 100%;
+    }
+
+    .info-banner-left {
+        padding: 8% 5%;
+    }
+
+    .info-banner-right {
+        padding: 8% 5%;
+    }
+
+    /* Info Section */
+    .info-section-content {
+        width: 70%;
+    }
+
+    /* Footer */
+    footer {
+        height: auto;
+        padding: 5%;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 3vh;
+        text-align: center;
+    }
+}
+
+/* =========================
+   TABLETS / LARGE PHONES
+========================= */
+@media screen and (max-width: 768px) {
+
+    /* Typography */
+    h1 {
+        font-size: 2.8em;
+    }
+
+    h2 {
+        font-size: 2.2em;
+    }
+
+    h3 {
+        font-size: 1.6em;
+    }
+
+    p {
+        font-size: 1em;
+    }
+
+    /* Buttons */
+    .btn {
+        width: 100%;
+        padding: 3% 5%;
+        font-size: 1em;
+    }
+
+    .btn-box {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    /* Navigation */
+    .nav ul {
+        flex-direction: column;
+        gap: 2vh;
+        padding: 3% 0;
+    }
+
+    /* Hero */
+    .hero-section-homepage {
+        height: 50vh;
+        text-align: center;
+    }
+
+    /* Cards */
+    .card {
+        width: 80%;
+    }
+
+    .card-banner {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Icon Banner */
+    .icon-banner {
+        height: auto;
+        padding: 5%;
+    }
+
+    /* Info Section */
+    .info-section {
+        padding: 15% 8%;
+    }
+
+    .info-section-content {
+        width: 100%;
+    }
+
+    /* Footer */
+    footer ul {
+        font-size: 1.2em;
+    }
+}
+
+/* =========================
+   MOBILE DEVICES
+========================= */
+@media screen and (max-width: 480px) {
+
+    /* Typography */
+    h1 {
+        font-size: 2.2em;
+        line-height: 1.2;
+    }
+
+    h2 {
+        font-size: 1.8em;
+    }
+
+    h3 {
+        font-size: 1.4em;
+    }
+
+    p {
+        font-size: 0.95em;
+        line-height: 1.6;
+    }
+
+    /* Navigation */
+    .nav {
+        padding: 4%;
+    }
+
+    .nav h2 {
+        font-size: 1.5em;
+    }
+
+    .nav ul {
+        font-size: 1em;
+        gap: 1.5vh;
+    }
+
+    /* Hero */
+    .hero-section-homepage {
+        height: 45vh;
+        padding: 0 6%;
+        background-position: center;
+        background-size: cover;
+    }
+
+    /* Cards */
+    .card {
+        width: 95%;
+    }
+
+    .card p {
+        font-size: 1em;
+    }
+
+    .card-contents {
+        padding: 10%;
+    }
+
+    /* Info Banner */
+    .info-banner,
+    .projects-info-banner {
+        padding: 3%;
+    }
+
+    .info-banner-left,
+    .info-banner-right {
+        padding: 10% 6%;
+    }
+
+    /* Info Section */
+    .info-section {
+        padding: 20% 6%;
+    }
+
+    /* Buttons */
+    .btn {
+        padding: 4% 6%;
+        min-width: 100%;
+        font-size: 1em;
+    }
+
+    /* Footer */
+    footer {
+        padding: 8% 5%;
+        line-height: 2em;
+    }
+
+    footer ul {
+        padding: 0;
+    }
+
+    .footer-content {
+        gap: 4vh;
+    }
+}
+
+/* =========================
+   EXTRA SMALL DEVICES
+========================= */
+    @media screen and (max-width: 320px) {
+
+        h1 {
+            font-size: 1.8em;
+        }
+
+        h2 {
+            font-size: 1.5em;
+        }
+
+        h3 {
+            font-size: 1.2em;
+        }
+
+        p {
+            font-size: 0.9em;
+        }
+
+        .nav h2 {
+            font-size: 1.3em;
+        }
+
+        .card {
+            width: 100%;
+        }
+
+        .btn {
+            font-size: 0.9em;
+        }
     }
