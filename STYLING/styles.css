@@ -253,6 +253,13 @@
     .card .btn {
         margin: 3% .5%;
         background-color: var(--secondary-color);
+        color: var(--section-color-2);
+    }
+    .card .btn:hover{
+        background-color: var(--section-color-2);
+        border: 2px solid var(--section-color-2);
+        color: var(--light-text);
+        transition: linear .25s;
     }
     /*ICON BANNER*/
     .icon-banner {
