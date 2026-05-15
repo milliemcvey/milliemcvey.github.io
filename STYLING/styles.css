@@ -241,6 +241,7 @@
     .card h3{
         padding: 1%;
         padding-bottom: 5%;
+        font-size: 2em;
     }
     .card p{
         font-size: 1.1em;
@@ -249,11 +250,16 @@
     .card .btn {
         margin: 3% .5%;
     }
+    .card .btn {
+        margin: 3% .5%;
+        background-color: var(--secondary-color);
+    }
     /*ICON BANNER*/
     .icon-banner {
         height: 20vh;
         align-content: center;
         gap: 5vw;
+        padding: 4% 0;
         background-color: var(--section-color-2);
     }
     /*INFO BANNER*/
