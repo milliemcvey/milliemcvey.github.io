@@ -15,7 +15,7 @@
 
   /* Main Colors */
   --primary-color: #5e4040;
-  --secondary-color: #e9ff9a;
+  --secondary-color: #e7ff91;
 
   /* Backgrounds */
   --background-color: #f4f4f4;
@@ -227,6 +227,7 @@
         background-color: var(--card-background);
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         border-radius: 15px;
+        border: 2px solid var(--section-color-2);
     }
     .card img {
         width: 100%;
