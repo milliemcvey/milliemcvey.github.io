@@ -197,8 +197,8 @@ p {
   gap: 1.5rem;
   min-height: 5rem;
   padding: 0.75rem clamp(1rem, 6vw, 6rem);
-  border-bottom: 2px solid var(--section-color-2);
-  background-color: var(--accent-color);
+  border-bottom: 2px solid var(--secondary-color);
+  background-color: var(--section-color-2);
   box-shadow: 0 6px 0 var(--secondary-color);
 }
 
@@ -209,20 +209,23 @@ p {
 .nav h2 {
   margin: 0;
   padding: 0;
-  font-size: 1.65rem;
+  font-size: 1.45rem;
   line-height: 1;
 }
 
 .nav h2 a {
   display: inline-grid;
-  width: 3.75rem;
-  height: 3.75rem;
+  width: 3.4rem;
+  height: 3.4rem;
   place-items: center;
   border: 2px solid var(--section-color-2);
-  border-radius: 999px;
-  background-color: var(--secondary-color);
+  border-radius: 0.85rem;
+  background-color: var(--accent-color);
   color: var(--section-color-2);
-  box-shadow: 4px 4px 0 var(--section-color-2);
+  box-shadow: 0 0 0 3px var(--secondary-color);
+  font-family: "Space Grotesk", "DM Sans", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0;
   transition: transform var(--transition-speed) ease,
     box-shadow var(--transition-speed) ease,
     background-color var(--transition-speed) ease;
@@ -230,18 +233,37 @@ p {
 
 .nav h2 a:hover,
 .nav h2 a:focus-visible {
-  background-color: var(--section-color);
+  background-color: var(--accent-color);
   color: var(--section-color-2);
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 var(--section-color-2);
+  transform: none;
+  box-shadow: 0 0 0 3px var(--secondary-color);
 }
 
 .nav-list {
-  padding: 0.35rem;
-  border: 2px solid var(--section-color-2);
+  position: relative;
+  padding: 0.3rem;
+  border: 1px solid rgba(231, 255, 145, 0.45);
   border-radius: 999px;
-  background-color: var(--section-color);
-  box-shadow: 4px 4px 0 var(--section-color-2);
+  background-color: rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  --nav-indicator-left: 0px;
+  --nav-indicator-top: 0px;
+  --nav-indicator-width: 0px;
+  --nav-indicator-height: 0px;
+}
+
+.nav-list::before {
+  position: absolute;
+  top: var(--nav-indicator-top);
+  left: var(--nav-indicator-left);
+  z-index: 0;
+  width: var(--nav-indicator-width);
+  height: var(--nav-indicator-height);
+  border-radius: 999px;
+  background-color: var(--secondary-color);
+  content: "";
+  box-shadow: none;
+  transition: left 0.28s ease, top 0.28s ease, width 0.28s ease, height 0.28s ease;
 }
 
 .nav-list ul {
@@ -255,12 +277,13 @@ p {
 
 .nav-list a {
   position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   min-height: 2.35rem;
   padding: 0.55rem 0.95rem;
   border-radius: 999px;
-  color: var(--section-color-2);
+  color: var(--light-text);
   font-weight: 800;
   text-transform: lowercase;
   transition: background-color var(--transition-speed) ease,
@@ -274,13 +297,15 @@ p {
 
 .nav-list a:hover,
 .nav-list a:focus-visible {
-  background-color: var(--accent-color);
   color: var(--section-color-2);
   transform: translateY(-1px);
 }
 
 .nav-list a.active {
-  background-color: var(--secondary-color);
+  color: var(--light-text);
+}
+
+.nav-list a.indicator-target {
   color: var(--section-color-2);
 }
 
@@ -305,8 +330,8 @@ p {
   border-bottom: 2px solid var(--section-color-2);
   background:
     linear-gradient(90deg, rgba(255, 214, 230, 0.94) 0 58%, rgba(231, 255, 145, 0.62) 58% 100%),
-    repeating-linear-gradient(0deg, transparent 0 30px, rgba(34, 34, 34, 0.08) 30px 32px),
-    repeating-linear-gradient(90deg, transparent 0 30px, rgba(34, 34, 34, 0.08) 30px 32px);
+    repeating-linear-gradient(0deg, transparent 0 28px, rgba(34, 34, 34, 0.16) 28px 30px),
+    repeating-linear-gradient(90deg, transparent 0 28px, rgba(34, 34, 34, 0.16) 28px 30px);
   content: "";
   pointer-events: none;
 }
@@ -653,7 +678,7 @@ footer {
   display: flex;
   gap: 1rem;
   overflow: hidden;
-  padding: 0.9rem clamp(1.25rem, 8vw, 7rem);
+  padding: 1.1rem clamp(1.25rem, 8vw, 7rem);
   border-block: 2px solid var(--section-color-2);
   background-color: var(--secondary-color);
   color: var(--section-color-2);
@@ -675,26 +700,46 @@ footer {
 }
 
 .hero-banner {
+  position: relative;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 0.7rem;
-  background-color: var(--section-color-2);
+  gap: 0.85rem;
+  overflow: visible;
+  background-color: var(--accent-color);
+}
+
+.hero-banner::before {
+  position: absolute;
+  top: -0.9rem;
+  left: clamp(1.25rem, 8vw, 7rem);
+  padding: 0.35rem 0.7rem;
+  border: 2px solid var(--section-color-2);
+  border-radius: 999px;
+  background-color: var(--section-color);
+  color: var(--section-color-2);
+  content: "focus areas";
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-transform: lowercase;
 }
 
 .hero-banner span {
-  padding: 0.45rem 0.8rem;
+  position: relative;
+  z-index: 1;
+  padding: 0.55rem 0.9rem;
   border: 2px solid var(--section-color-2);
-  border-radius: 999px;
-  background-color: var(--secondary-color);
+  border-radius: var(--border-radius);
+  background-color: var(--section-color);
   color: var(--section-color-2);
   font-family: "DM Sans", sans-serif;
   font-size: clamp(0.9rem, 1.5vw, 1rem);
   font-weight: 900;
   text-transform: none;
+  box-shadow: 4px 4px 0 var(--section-color-2);
 }
 
 .hero-banner span:first-child {
-  background-color: var(--accent-color);
+  background-color: var(--secondary-color);
 }
 
 .hero-banner span::after {
@@ -1065,12 +1110,12 @@ footer ul {
   }
 
   .nav h2 {
-    font-size: 1.35rem;
+    font-size: 1.2rem;
   }
 
   .nav h2 a {
-    width: 3.1rem;
-    height: 3.1rem;
+    width: 3rem;
+    height: 3rem;
   }
 
   .nav-list ul {

@@ -68,6 +68,50 @@ function markActiveNavigation() {
       link.setAttribute("aria-current", "page");
     }
   });
+
+  setupNavIndicator();
+}
+
+function setupNavIndicator() {
+  const navList = document.querySelector(".nav-list");
+  const links = document.querySelectorAll(".nav-list a");
+  const activeLink = document.querySelector(".nav-list a.active") || links[0];
+
+  if (!navList || !links.length || !activeLink) {
+    return;
+  }
+
+  const moveIndicator = (target) => {
+    const listRect = navList.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+
+    navList.style.setProperty("--nav-indicator-left", `${targetRect.left - listRect.left}px`);
+    navList.style.setProperty("--nav-indicator-top", `${targetRect.top - listRect.top}px`);
+    navList.style.setProperty("--nav-indicator-width", `${targetRect.width}px`);
+    navList.style.setProperty("--nav-indicator-height", `${targetRect.height}px`);
+
+    links.forEach((link) => link.classList.toggle("indicator-target", link === target));
+  };
+
+  const resetIndicator = () => moveIndicator(activeLink);
+
+  requestAnimationFrame(resetIndicator);
+
+  links.forEach((link) => {
+    link.addEventListener("mouseenter", () => moveIndicator(link));
+    link.addEventListener("focus", () => moveIndicator(link));
+  });
+
+  navList.addEventListener("mouseleave", resetIndicator);
+  navList.addEventListener("focusout", () => {
+    requestAnimationFrame(() => {
+      if (!navList.contains(document.activeElement)) {
+        resetIndicator();
+      }
+    });
+  });
+
+  window.addEventListener("resize", resetIndicator);
 }
 
 function addRevealAnimations() {
