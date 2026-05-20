@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | Millie McVey</title>
+
+    <link rel="stylesheet" href="../STYLING/styles.css">
+    <script src="../SCRIPT/script.js" defer></script>
+</head>
+<body>
+    <div class="nav main-div">
+        <h2><a href="../HTML/index.html">MM</a></h2>
+
+        <div class="nav-list">
+            <ul>
+                <li><a href="../HTML/index.html">Home</a></li>
+                <li><a href="../HTML/about.html">About</a></li>
+                <li><a href="../HTML/projects.html">Projects</a></li>
+                <li><a href="../HTML/contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <main class="admin-page main-div">
+        <section class="admin-shell secondary-div">
+            <div class="admin-heading">
+                <div>
+                    <p class="eyebrow">Portfolio admin</p>
+                    <h1>Project Manager</h1>
+                    <p>Create project cards for the public projects page.</p>
+                </div>
+                <button class="btn btn-secondary" type="button" data-logout>Logout</button>
+            </div>
+
+            <form class="admin-form project-form" data-project-form>
+                <label>
+                    Project title
+                    <input type="text" name="title" placeholder="E.g. Neural Network Classifier" required>
+                </label>
+                <label>
+                    Description
+                    <textarea name="description" rows="5" placeholder="Short project summary..." required></textarea>
+                </label>
+                <label>
+                    Image URL
+                    <input type="text" name="imageUrl" placeholder="https://... or ../HTML/IMAGES/example.png">
+                </label>
+                <label>
+                    Project link
+                    <input type="url" name="projectUrl" placeholder="https://github.com/...">
+                </label>
+                <label>
+                    Tags
+                    <input type="text" name="tags" placeholder="Python, Machine Learning, Data">
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" name="featured" checked>
+                    Featured on homepage
+                </label>
+                <button class="btn" type="submit">Add Project</button>
+                <p class="form-message" data-form-message></p>
+            </form>
+        </section>
+
+        <section class="admin-preview">
+            <h2>Current Projects</h2>
+            <div class="card-banner banner" data-project-grid></div>
+        </section>
+    </main>
+</body>
+</html>

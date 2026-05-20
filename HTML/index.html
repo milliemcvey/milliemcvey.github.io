@@ -7,6 +7,7 @@
     
     <!--Connects Script-->
     <link rel="stylesheet" href="../STYLING/styles.css">
+    <script src="../SCRIPT/script.js" defer></script>
 </head>
 
 <body>
@@ -28,9 +29,14 @@
     <div class="hero-section-homepage main-div">
 
         <div class="hero-content secondary-div">
-            <h3>Good ######</h3>
+            <h3>Good</h3>
             <h1>I'm Millie McVey</h1>
             <h4>Aspiring Machine Learning Engineer</h4>
+            <p>A Computer Science and Artificial Intelligence student documenting my coursework, independent projects, and progress toward machine learning engineering.</p>
+        </div>
+        <div class="hero-sticker secondary-div">
+            <span>currently learning</span>
+            <strong>machine learning, data science & full-stack development</strong>
         </div>
         <div class="btn-box blue-btns secondary-div">
             <button class="btn">View my Work</button>
@@ -39,65 +45,22 @@
 
     </div>
 
-    <div class="card-banner banner main-div">
-        <!--Project Card-->
-        <div class="card secondary-div">
-            <img src="../HTML/IMAGES/prem-predictor-header.png">
-                <div class="card-contents">
-                    <h3>EPL Predictor Model</h3>
-                    <p>Linear regression ML model for predicting Premier League table standings</p>
-                    <div class="btn-box">
-                        <button class="btn">View</button>
-                    </div>
-                </div>    
-        </div>
-        <div class="card secondary-div">
-            <img src="../HTML/IMAGES/netflix-header.png">
-                <div class="card-contents">
-                    <h3>Netflix Analysis</h3>
-                    <p>Data analysis and visualization of Netflix content and viewer behavior</p>
-                    <div class="btn-box">
-                        <button class="btn">View</button>
-                    </div>
-                </div>    
-        </div>
-        <div class="card secondary-div">
-            <img src="https://placehold.co/240x160">
-                <div class="card-contents">
-                    <h3>Keyword Keyword</h3>
-                    <p>Short Project Description Short Project Description Short Project Description</p>
-                    <div class="btn-box">
-                        <button class="btn">View</button>
-                    </div>
-                </div>    
-        </div>
-        <div class="card secondary-div">
-            <img src="../HTML/IMAGES/weather-header.png">
-                <div class="card-contents">
-                    <h3>Weather Data Analysis</h3>
-                    <p>Analysis and visualization of weather patterns and climate data</p>
-                    <div class="btn-box">
-                        <button class="btn">View</button>
-                    </div>
-                </div>    
-        </div>
-        <div class="card secondary-div">
-            <img src="https://placehold.co/240x160">
-                <div class="card-contents">
-                    <h3>Keyword Keyword</h3>
-                    <p>Short Project Description Short Project Description Short Project Description</p>
-                    <div class="btn-box">
-                        <button class="btn">View</button>
-                    </div>
-                </div>    
-        </div>
+    <div class="ticker-strip hero-banner" aria-label="Portfolio focus areas">
+        <span>BSc Computer Science & Artificial Intelligence</span>
+        <span>Python</span>
+        <span>Machine Learning</span>
+        <span>Data Analysis</span>
+        <span>Student Portfolio</span>
     </div>
-    
+
+    <div class="card-banner banner main-div" data-project-grid data-limit="3">
+        <p class="loading-message">Loading projects...</p>
     </div>
 
     <div class="about-segment info-section main-div">
 
         <div class="info-section-content secondary-div">
+            <p class="eyebrow">Welcome to the portfolio</p>
             <h2>About</h2>
 
             <p>I'm Millie McVey, an aspiring Machine Learning Engineer with a passion for data analysis and problem-solving. I have a strong foundation in Python and statistical methods through my current BSc studies in Computer Science and Artificial Intelligence, and I am always eager to learn new technologies and techniques.</p>
@@ -108,6 +71,24 @@
             </div>
         </div>
 
+    </div>
+
+    <div class="editorial-band main-div">
+        <div class="editorial-card">
+            <span>01.</span>
+            <h3>study</h3>
+            <p>Building a stronger foundation in programming, statistics, and AI concepts.</p>
+        </div>
+        <div class="editorial-card">
+            <span>02.</span>
+            <h3>build</h3>
+            <p>Applying what I learn through small, focused data and machine learning projects.</p>
+        </div>
+        <div class="editorial-card">
+            <span>03.</span>
+            <h3>reflect</h3>
+            <p>Explaining the process, what worked, and what I would improve next time.</p>
+        </div>
     </div>
 
 
@@ -128,6 +109,7 @@
 
         <div class="info-section-content secondary-div">
 
+            <p class="eyebrow">Featured work</p>
             <h2>Projects</h2>
             <p>Here are some of the projects I've worked on. Each project has helped me develop my skills in different areas of data analysis and machine learning. I've explored various techniques and tools to solve real-world problems in multiple domains.</p>
             
@@ -152,17 +134,14 @@
             <ul>
                 <li><a href="">Projects Library</a></li>
                 <li><a href="">Github Profile</a></li>
+                <li><a href="../HTML/login.html">Admin</a></li>
                 <li><a href=""></a></li>
-                <li><wrap>© 2026 Millie McVey</wrap></li>
+                <li><wrap>&copy; 2026 Millie McVey</wrap></li>
             </ul>
         </div>
     </div>
     
   </footer>
 
-</body>     
-
-<!--Connects Script-->
-<script src="../SCRIPT/script.js"></script>
-
+</body>
 </html>
