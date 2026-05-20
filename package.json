@@ -1,0 +1,17 @@
+{
+  "name": "milliemcvey-portfolio",
+  "version": "1.0.0",
+  "description": "Millie McVey portfolio with a small login-protected project admin backend.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "portfolio",
+    "projects",
+    "admin"
+  ],
+  "author": "Millie McVey",
+  "license": "UNLICENSED"
+}

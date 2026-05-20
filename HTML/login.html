@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Millie McVey</title>
+
+    <link rel="stylesheet" href="../STYLING/styles.css">
+    <script src="../SCRIPT/script.js" defer></script>
+</head>
+<body>
+    <div class="nav main-div">
+        <h2><a href="../HTML/index.html">MM</a></h2>
+
+        <div class="nav-list">
+            <ul>
+                <li><a href="../HTML/index.html">Home</a></li>
+                <li><a href="../HTML/about.html">About</a></li>
+                <li><a href="../HTML/projects.html">Projects</a></li>
+                <li><a href="../HTML/contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <main class="auth-page main-div">
+        <section class="auth-panel secondary-div">
+            <p class="eyebrow">Portfolio admin</p>
+            <h1>Login</h1>
+            <p>Add new projects to your portfolio without editing the HTML.</p>
+
+            <form class="admin-form" data-login-form>
+                <label>
+                    Username
+                    <input type="text" name="username" autocomplete="username" required>
+                </label>
+                <label>
+                    Password
+                    <input type="password" name="password" autocomplete="current-password" required>
+                </label>
+                <button class="btn" type="submit">Login</button>
+                <p class="form-message" data-form-message></p>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
