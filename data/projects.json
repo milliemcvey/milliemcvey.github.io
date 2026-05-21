@@ -5,7 +5,7 @@
     "description": "Linear regression ML model for predicting Premier League table standings.",
     "imageUrl": "../HTML/IMAGES/PROJECTS/epl-predictor-graphic.png",
     "projectUrl": "#",
-    "tags": ["Machine Learning", "Python", "Regression"],
+    "tags": ["Python", "Scikit-learn", "Pandas", "Regression", "Predictive"],
     "featured": true,
     "createdAt": "2026-05-20T00:00:00.000Z"
   },
@@ -15,7 +15,7 @@
     "description": "Data analysis and visualization of Netflix content and viewer behaviour.",
     "imageUrl": "../HTML/IMAGES/PROJECTS/netflix-analysis-graphic.png",
     "projectUrl": "#",
-    "tags": ["Data Analysis", "Visualization"],
+    "tags": ["Python", "Pandas", "Matplotlib", "Data Analysis", "Data Visualisation"],
     "featured": true,
     "createdAt": "2026-05-20T00:00:00.000Z"
   },
@@ -25,7 +25,7 @@
     "description": "Analysis and visualization of weather patterns and climate data.",
     "imageUrl": "../HTML/IMAGES/PROJECTS/weather-analysis-graphic.png",
     "projectUrl": "#",
-    "tags": ["Data Analysis", "Python"],
+    "tags": ["Python", "Pandas", "Matplotlib", "Data Analysis", "Pattern Analysis"],
     "featured": true,
     "createdAt": "2026-05-20T00:00:00.000Z"
   }

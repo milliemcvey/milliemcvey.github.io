@@ -322,7 +322,7 @@ p {
   grid-template-columns: minmax(0, 1.25fr) minmax(16rem, 0.75fr);
   align-items: stretch;
   gap: clamp(1.5rem, 4vw, 3rem);
-  min-height: auto;
+  min-height: 75vh;
   padding: clamp(3rem, 7vw, 6rem) clamp(1.25rem, 8vw, 7rem);
   background-color: var(--section-color);
   text-align: left;
@@ -499,19 +499,38 @@ p {
 .tag-list {
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 0.45rem;
+  width: 100%;
   margin-top: 1rem;
+  overflow: hidden;
 }
 
 .tag-list span {
+  flex: 0 0 auto;
+  max-width: 9rem;
   padding: 0.35rem 0.65rem;
   border: 1px solid var(--section-color-2);
   border-radius: 999px;
-  background-color: var(--accent-color);
+  background-color: var(--secondary-color);
   color: var(--section-color-2);
   font-size: 0.78rem;
   font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tag-list .tag-language {
+  background-color: var(--section-color);
+}
+
+.tag-list .tag-skill {
+  background-color: var(--secondary-color);
+}
+
+.tag-list .tag-library {
+  background-color: var(--accent-color);
 }
 
 .card .btn {

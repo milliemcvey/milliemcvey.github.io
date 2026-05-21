@@ -16,7 +16,7 @@ const fallbackProjects = [
     description: "Linear regression ML model for predicting Premier League table standings.",
     imageUrl: "../HTML/IMAGES/PROJECTS/epl-predictor-graphic.png",
     projectUrl: "#",
-    tags: ["Machine Learning", "Python"],
+    tags: ["Python", "Scikit-learn", "Pandas", "Regression", "Predictive"],
     featured: true
   },
   {
@@ -24,7 +24,7 @@ const fallbackProjects = [
     description: "Data analysis and visualization of Netflix content and viewer behaviour.",
     imageUrl: "../HTML/IMAGES/PROJECTS/netflix-analysis-graphic.png",
     projectUrl: "#",
-    tags: ["Data Analysis"],
+    tags: ["Python", "Pandas", "Matplotlib", "Data Analysis", "Data Visualisation"],
     featured: true
   },
   {
@@ -32,7 +32,7 @@ const fallbackProjects = [
     description: "Analysis and visualization of weather patterns and climate data.",
     imageUrl: "../HTML/IMAGES/PROJECTS/weather-analysis-graphic.png",
     projectUrl: "#",
-    tags: ["Visualization", "Python"],
+    tags: ["Python", "Pandas", "Matplotlib", "Data Analysis", "Pattern Analysis"],
     featured: true
   }
 ];
@@ -288,7 +288,7 @@ function createProjectCard(project) {
     <div class="card-contents">
       <h3>${escapeHtml(project.title)}</h3>
       <p>${escapeHtml(project.description)}</p>
-      ${tags.length ? `<div class="tag-list">${tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>` : ""}
+      ${tags.length ? `<div class="tag-list">${tags.map((tag) => `<span class="${getTagClass(tag)}">${escapeHtml(tag)}</span>`).join("")}</div>` : ""}
       <div class="btn-box">
         <a class="btn" href="${escapeAttribute(project.projectUrl || "#")}" ${project.projectUrl && project.projectUrl !== "#" ? 'target="_blank" rel="noopener noreferrer"' : ""}>View</a>
       </div>
@@ -296,6 +296,22 @@ function createProjectCard(project) {
   `;
 
   return card;
+}
+
+function getTagClass(tag) {
+  const normalizedTag = String(tag || "").toLowerCase();
+  const languages = ["python", "javascript", "html", "css", "java", "c++"];
+  const libraries = ["pandas", "numpy", "matplotlib", "scikit-learn", "seaborn"];
+
+  if (languages.includes(normalizedTag)) {
+    return "tag-language";
+  }
+
+  if (libraries.includes(normalizedTag)) {
+    return "tag-library";
+  }
+
+  return "tag-skill";
 }
 
 function setupLoginForm() {
