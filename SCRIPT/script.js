@@ -16,7 +16,7 @@ const fallbackProjects = [
     description: "Linear regression ML model for predicting Premier League table standings.",
     imageUrl: "../HTML/IMAGES/PROJECTS/epl-predictor-graphic.png",
     projectUrl: "#",
-    tags: ["Python", "Scikit-learn", "Pandas", "Regression", "Predictive"],
+    tags: ["Python", "Scikit-learn", "Pandas"],
     featured: true
   },
   {
@@ -24,7 +24,7 @@ const fallbackProjects = [
     description: "Data analysis and visualization of Netflix content and viewer behaviour.",
     imageUrl: "../HTML/IMAGES/PROJECTS/netflix-analysis-graphic.png",
     projectUrl: "#",
-    tags: ["Python", "Pandas", "Matplotlib", "Data Analysis", "Data Visualisation"],
+    tags: ["Python", "Pandas", "Matplotlib"],
     featured: true
   },
   {
@@ -32,7 +32,7 @@ const fallbackProjects = [
     description: "Analysis and visualization of weather patterns and climate data.",
     imageUrl: "../HTML/IMAGES/PROJECTS/weather-analysis-graphic.png",
     projectUrl: "#",
-    tags: ["Python", "Pandas", "Matplotlib", "Data Analysis", "Pattern Analysis"],
+    tags: ["Python", "Pandas", "Matplotlib"],
     featured: true
   }
 ];
@@ -281,6 +281,9 @@ async function getProjects() {
 function createProjectCard(project) {
   const card = document.createElement("article");
   const tags = Array.isArray(project.tags) ? project.tags : [];
+  const visibleTags = tags
+    .map((tag) => ({ tag, className: getTagClass(tag) }))
+    .filter(({ className }) => className);
 
   card.className = "card secondary-div";
   card.innerHTML = `
@@ -288,7 +291,7 @@ function createProjectCard(project) {
     <div class="card-contents">
       <h3>${escapeHtml(project.title)}</h3>
       <p>${escapeHtml(project.description)}</p>
-      ${tags.length ? `<div class="tag-list">${tags.map((tag) => `<span class="${getTagClass(tag)}">${escapeHtml(tag)}</span>`).join("")}</div>` : ""}
+      ${visibleTags.length ? `<div class="tag-list">${visibleTags.map(({ tag, className }) => `<span class="${className}">${escapeHtml(tag)}</span>`).join("")}</div>` : ""}
       <div class="btn-box">
         <a class="btn" href="${escapeAttribute(project.projectUrl || "#")}" ${project.projectUrl && project.projectUrl !== "#" ? 'target="_blank" rel="noopener noreferrer"' : ""}>View</a>
       </div>
@@ -311,7 +314,7 @@ function getTagClass(tag) {
     return "tag-library";
   }
 
-  return "tag-skill";
+  return null;
 }
 
 function setupLoginForm() {

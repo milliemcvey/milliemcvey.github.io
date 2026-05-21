@@ -204,6 +204,7 @@ p {
   border-bottom: 2px solid var(--secondary-color);
   background-color: var(--section-color-2);
   box-shadow: 0 6px 0 var(--secondary-color);
+  overflow-x: clip;
 }
 
 .nav.scrolled {
@@ -245,6 +246,7 @@ p {
 
 .nav-list {
   position: relative;
+  min-width: 0;
   padding: 0.3rem;
   border: 1px solid rgba(231, 255, 145, 0.45);
   border-radius: 999px;
@@ -254,6 +256,10 @@ p {
   --nav-indicator-top: 0px;
   --nav-indicator-width: 0px;
   --nav-indicator-height: 0px;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
 }
 
 .nav-list::before {
@@ -277,6 +283,8 @@ p {
   margin: 0;
   padding: 0;
   list-style: none;
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .nav-list a {
@@ -311,6 +319,10 @@ p {
 
 .nav-list a.indicator-target {
   color: var(--section-color-2);
+}
+
+.nav-list::-webkit-scrollbar {
+  display: none;
 }
 
 /* =========================
@@ -523,10 +535,6 @@ p {
 
 .tag-list .tag-language {
   background-color: var(--section-color);
-}
-
-.tag-list .tag-skill {
-  background-color: var(--secondary-color);
 }
 
 .tag-list .tag-library {
@@ -1106,23 +1114,6 @@ footer ul {
     grid-template-columns: 1fr;
   }
 
-  .nav {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 0.9rem;
-    padding-block: 1rem;
-  }
-
-  .nav-list {
-    width: 100%;
-    border-radius: var(--border-radius);
-  }
-
-  .nav-list ul {
-    flex-wrap: wrap;
-    justify-content: flex-start;
-  }
-
   .info-banner,
   .projects-info-banner {
     grid-template-columns: 1fr;
@@ -1135,15 +1126,14 @@ footer ul {
 }
 
 @media screen and (max-width: 768px) {
-  .nav-list ul {
-    gap: 0.35rem;
-    font-size: 0.95rem;
+  .tag-list {
+    justify-content: center;
   }
 
-  .nav-list a {
-    padding-inline: 0.75rem;
+  .tag-list .tag-language ~ .tag-language,
+  .tag-list .tag-library ~ .tag-library {
+    display: none;
   }
-
   .hero-section-homepage {
     padding-block: 4rem;
   }
@@ -1192,26 +1182,9 @@ footer ul {
 }
 
 @media screen and (max-width: 480px) {
-  .nav {
-    min-height: auto;
-  }
-
-  .nav h2 {
-    font-size: 1.2rem;
-  }
-
-  .nav h2 a {
-    width: 3rem;
-    height: 3rem;
-  }
-
-  .nav-list ul {
-    gap: 0.25rem;
-  }
-
   .nav-list a {
-    min-height: 2.1rem;
-    padding: 0.45rem 0.6rem;
+    font-size: 0.82rem;
+    line-height: 1;
   }
 
   .banner {

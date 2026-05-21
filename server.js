@@ -10,6 +10,7 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "change-this-password";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
 const ROOT_DIR = __dirname;
 const PROJECTS_FILE = path.join(ROOT_DIR, "data", "projects.json");
+const PROJECT_CATEGORIES = new Set(["web", "data", "ml", "games"]);
 const sessions = new Map();
 
 const contentTypes = {
@@ -124,7 +125,11 @@ async function serveStatic(pathname, response) {
 
 async function readProjects() {
   const file = await fs.readFile(PROJECTS_FILE, "utf8");
-  return JSON.parse(file);
+  const projects = JSON.parse(file);
+  return projects.map((project) => ({
+    ...project,
+    category: normalizeCategory(project.category) || "data"
+  }));
 }
 
 async function writeProjects(projects) {
@@ -149,9 +154,16 @@ async function readJsonBody(request) {
 function validateProject(input) {
   const title = cleanText(input.title);
   const description = cleanText(input.description);
+  const category = normalizeCategory(input.category);
 
   if (!title || !description) {
     const error = new Error("Project title and description are required.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  if (!category) {
+    const error = new Error("Project category must be one of: web, data, ml, games.");
     error.statusCode = 400;
     throw error;
   }
@@ -160,6 +172,7 @@ function validateProject(input) {
     id: slugify(title),
     title,
     description,
+    category,
     imageUrl: cleanText(input.imageUrl) || "https://placehold.co/600x400",
     projectUrl: cleanText(input.projectUrl) || "#",
     tags: cleanText(input.tags)
@@ -173,6 +186,11 @@ function validateProject(input) {
 
 function cleanText(value) {
   return String(value || "").trim();
+}
+
+function normalizeCategory(value) {
+  const category = cleanText(value).toLowerCase();
+  return PROJECT_CATEGORIES.has(category) ? category : "";
 }
 
 function slugify(value) {
