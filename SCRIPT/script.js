@@ -10,10 +10,15 @@ document.addEventListener("DOMContentLoaded", () => {
   setupAdminPage();
 });
 
+const VALID_CATEGORIES = ["web", "data", "ml", "games"];
+let allProjects = [];
+let currentCategoryFilter = "all";
+
 const fallbackProjects = [
   {
     title: "EPL Predictor Model",
     description: "Linear regression ML model for predicting Premier League table standings.",
+    category: "ml",
     imageUrl: "../HTML/IMAGES/PROJECTS/epl-predictor-graphic.png",
     projectUrl: "#",
     tags: ["Python", "Scikit-learn", "Pandas"],
@@ -22,6 +27,7 @@ const fallbackProjects = [
   {
     title: "Netflix Analysis",
     description: "Data analysis and visualization of Netflix content and viewer behaviour.",
+    category: "data",
     imageUrl: "../HTML/IMAGES/PROJECTS/netflix-analysis-graphic.png",
     projectUrl: "#",
     tags: ["Python", "Pandas", "Matplotlib"],
@@ -30,6 +36,7 @@ const fallbackProjects = [
   {
     title: "Weather Data Analysis",
     description: "Analysis and visualization of weather patterns and climate data.",
+    category: "data",
     imageUrl: "../HTML/IMAGES/PROJECTS/weather-analysis-graphic.png",
     projectUrl: "#",
     tags: ["Python", "Pandas", "Matplotlib"],
@@ -240,15 +247,19 @@ async function renderProjectGrids() {
   const grids = document.querySelectorAll("[data-project-grid]");
 
   if (!grids.length) {
+    setupCategoryFilters();
     return;
   }
 
-  const projects = await getProjects();
+  allProjects = normalizeProjects(await getProjects());
 
   grids.forEach((grid) => {
-    const limit = Number(grid.dataset.limit || projects.length);
-    const visibleProjects = projects
+    const limit = Number(grid.dataset.limit || allProjects.length);
+    const visibleProjects = allProjects
       .filter((project) => grid.dataset.limit ? project.featured !== false : true)
+      .filter((project) => (grid.dataset.limit || currentCategoryFilter === "all")
+        ? true
+        : project.category === currentCategoryFilter)
       .slice(0, limit);
 
     grid.innerHTML = "";
@@ -262,6 +273,8 @@ async function renderProjectGrids() {
       grid.appendChild(createProjectCard(project));
     });
   });
+
+  setupCategoryFilters();
 }
 
 async function getProjects() {
@@ -278,6 +291,40 @@ async function getProjects() {
   }
 }
 
+function normalizeProjects(projects) {
+  if (!Array.isArray(projects)) {
+    return [];
+  }
+
+  return projects.map((project) => {
+    const category = normalizeCategory(project?.category);
+
+    return {
+      ...project,
+      category: category || "data"
+    };
+  });
+}
+
+function normalizeCategory(value) {
+  const category = String(value || "").trim().toLowerCase();
+  return VALID_CATEGORIES.includes(category) ? category : "";
+}
+
+function formatCategory(category) {
+  const normalized = normalizeCategory(category);
+
+  if (!normalized) {
+    return "Data";
+  }
+
+  if (normalized === "ml") {
+    return "ML";
+  }
+
+  return normalized.charAt(0).toUpperCase() + normalized.slice(1);
+}
+
 function createProjectCard(project) {
   const card = document.createElement("article");
   const tags = Array.isArray(project.tags) ? project.tags : [];
@@ -289,6 +336,7 @@ function createProjectCard(project) {
   card.innerHTML = `
     <img src="${escapeAttribute(project.imageUrl || "https://placehold.co/600x400")}" alt="${escapeAttribute(project.title)} project preview">
     <div class="card-contents">
+      <div class="project-category">${escapeHtml(formatCategory(project.category))}</div>
       <h3>${escapeHtml(project.title)}</h3>
       <p>${escapeHtml(project.description)}</p>
       ${visibleTags.length ? `<div class="tag-list">${visibleTags.map(({ tag, className }) => `<span class="${className}">${escapeHtml(tag)}</span>`).join("")}</div>` : ""}
@@ -299,6 +347,34 @@ function createProjectCard(project) {
   `;
 
   return card;
+}
+
+function setupCategoryFilters() {
+  const container = document.querySelector("[data-project-filters]");
+
+  if (!container) {
+    return;
+  }
+
+  const buttons = container.querySelectorAll("[data-category-filter]");
+  const validFilters = new Set(["all", ...VALID_CATEGORIES]);
+
+  buttons.forEach((button) => {
+    const category = String(button.dataset.categoryFilter || "").toLowerCase();
+    button.classList.toggle("active", category === currentCategoryFilter);
+
+    if (!button.dataset.boundFilter) {
+      button.dataset.boundFilter = "true";
+      button.addEventListener("click", () => {
+        if (!validFilters.has(category)) {
+          return;
+        }
+
+        currentCategoryFilter = category;
+        renderProjectGrids();
+      });
+    }
+  });
 }
 
 function getTagClass(tag) {
