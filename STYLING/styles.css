@@ -57,6 +57,14 @@ html {
 body {
   margin: 0;
   background-color: var(--accent-color);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.14)),
+    repeating-linear-gradient(
+      45deg,
+      rgba(34, 34, 34, 0.03) 0 1px,
+      transparent 1px 18px
+    );
+  background-size: 100% 100%, 22px 22px;
   color: var(--text-color);
   font-family: "DM Sans", sans-serif;
   line-height: 1.6;
@@ -452,17 +460,37 @@ p {
   gap: clamp(1rem, 2.5vw, 2rem);
   padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 8vw, 7rem);
   background-color: var(--accent-color);
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 34%),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(34, 34, 34, 0.035) 0 1px,
+      transparent 1px 24px
+    );
+  background-size: 100% 100%, 30px 30px;
 }
 
 .card-banner {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 24.5rem));
   align-items: stretch;
+  justify-content: center;
+  justify-items: center;
+  width: min(100%, 88rem);
+  margin-inline: auto;
+  gap: 0.7rem;
+}
+
+.card-banner.banner {
+  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 4vw, 3rem);
 }
 
 .card {
   display: flex;
+  width: 100%;
+  max-width: 23rem;
   min-height: 100%;
+  margin-inline: auto;
   overflow: hidden;
   flex-direction: column;
   background-color: var(--card-background);
@@ -491,19 +519,21 @@ p {
   flex: 1;
   flex-direction: column;
   align-items: center;
+  gap: 0.6rem;
   padding: 1.35rem;
   text-align: center;
 }
 
 .card h3 {
   min-height: 3.2rem;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.05rem;
   font-size: clamp(1.25rem, 2vw, 1.65rem);
   font-family: "Space Grotesk", "DM Sans", sans-serif;
 }
 
 .card p {
   flex: 1;
+  margin: 0;
   color: var(--muted-text);
   font-size: 1rem;
 }
@@ -527,7 +557,7 @@ p {
   flex-wrap: nowrap;
   gap: 0.45rem;
   width: 100%;
-  margin-top: 1rem;
+  margin-top: 0.45rem;
   overflow: hidden;
 }
 
@@ -601,9 +631,27 @@ p {
   color: var(--section-color-2);
 }
 
+.card .btn-box {
+  margin-top: 0.7rem;
+  padding-top: 0;
+}
+
 .card .btn:hover {
+  background-color: var(--accent-color);
+  color: var(--section-color-2);
+  border-color: var(--section-color-2);
+  box-shadow: 5px 5px 0 var(--section-color-2);
+}
+
+.btn-delete {
+  background-color: var(--section-color);
+  color: var(--section-color-2);
+}
+
+.btn-delete:hover {
   background-color: var(--section-color-2);
   color: var(--light-text);
+  box-shadow: 5px 5px 0 var(--accent-color-strong);
 }
 
 .icon-banner {
@@ -612,6 +660,7 @@ p {
   gap: clamp(2rem, 7vw, 5rem);
   border-block: 2px solid var(--section-color-2);
   background-color: var(--section-color-2);
+  background-image: none;
 }
 
 .icon-banner img {
@@ -633,6 +682,14 @@ p {
   place-items: center;
   padding: clamp(3rem, 8vw, 6rem) clamp(1.25rem, 5vw, 5rem);
   background-color: var(--secondary-color);
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0)),
+    repeating-linear-gradient(
+      0deg,
+      rgba(34, 34, 34, 0.045) 0 1px,
+      transparent 1px 30px
+    );
+  background-size: 100% 100%, 100% 30px;
   text-align: center;
 }
 

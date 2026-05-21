@@ -10,12 +10,13 @@ document.addEventListener("DOMContentLoaded", () => {
   setupAdminPage();
 });
 
-const VALID_CATEGORIES = ["web", "data", "ml", "games"];
+const VALID_CATEGORIES = ["web", "data", "ml", "apps"];
 let allProjects = [];
 let currentCategoryFilter = "all";
 
 const fallbackProjects = [
   {
+    id: "epl-predictor-model",
     title: "EPL Predictor Model",
     description: "Linear regression ML model for predicting Premier League table standings.",
     category: "ml",
@@ -25,6 +26,7 @@ const fallbackProjects = [
     featured: true
   },
   {
+    id: "netflix-analysis",
     title: "Netflix Analysis",
     description: "Data analysis and visualization of Netflix content and viewer behaviour.",
     category: "data",
@@ -34,6 +36,7 @@ const fallbackProjects = [
     featured: true
   },
   {
+    id: "weather-data-analysis",
     title: "Weather Data Analysis",
     description: "Analysis and visualization of weather patterns and climate data.",
     category: "data",
@@ -270,7 +273,8 @@ async function renderProjectGrids() {
     }
 
     visibleProjects.forEach((project) => {
-      grid.appendChild(createProjectCard(project));
+      const showAdminDelete = Boolean(project.id) && Boolean(grid.closest(".admin-preview"));
+      grid.appendChild(createProjectCard(project, { showAdminDelete }));
     });
   });
 
@@ -325,9 +329,10 @@ function formatCategory(category) {
   return normalized.charAt(0).toUpperCase() + normalized.slice(1);
 }
 
-function createProjectCard(project) {
+function createProjectCard(project, options = {}) {
   const card = document.createElement("article");
   const tags = Array.isArray(project.tags) ? project.tags : [];
+  const { showAdminDelete = false } = options;
   const visibleTags = tags
     .map((tag) => ({ tag, className: getTagClass(tag) }))
     .filter(({ className }) => className);
@@ -342,6 +347,7 @@ function createProjectCard(project) {
       ${visibleTags.length ? `<div class="tag-list">${visibleTags.map(({ tag, className }) => `<span class="${className}">${escapeHtml(tag)}</span>`).join("")}</div>` : ""}
       <div class="btn-box">
         <a class="btn" href="${escapeAttribute(project.projectUrl || "#")}" ${project.projectUrl && project.projectUrl !== "#" ? 'target="_blank" rel="noopener noreferrer"' : ""}>View</a>
+        ${showAdminDelete ? `<button class="btn btn-delete" type="button" data-delete-project="${escapeAttribute(project.id)}">Delete</button>` : ""}
       </div>
     </div>
   `;
@@ -470,6 +476,60 @@ async function setupAdminPage() {
       setMessage(message, error.message, true);
     }
   });
+
+  const previewGrid = document.querySelector(".admin-preview [data-project-grid]");
+  const formMessage = form.querySelector("[data-form-message]");
+
+  if (previewGrid && !previewGrid.dataset.boundDelete) {
+    previewGrid.dataset.boundDelete = "true";
+    previewGrid.addEventListener("click", async (event) => {
+      const button = event.target.closest("[data-delete-project]");
+
+      if (!button) {
+        return;
+      }
+
+      const projectId = button.getAttribute("data-delete-project");
+
+      if (!projectId) {
+        return;
+      }
+
+      if (!window.confirm("Delete this project card?")) {
+        return;
+      }
+
+      setMessage(formMessage, "Deleting project...");
+      button.disabled = true;
+
+      try {
+        let response = await fetch(`/api/projects/${encodeURIComponent(projectId)}`, {
+          method: "DELETE"
+        });
+        let result = await response.json();
+
+        if (!response.ok) {
+          response = await fetch("/api/projects/delete", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: projectId })
+          });
+          result = await response.json();
+        }
+
+        if (!response.ok) {
+          throw new Error(result.error || "Could not delete project.");
+        }
+
+        setMessage(formMessage, "Project deleted.");
+        await renderProjectGrids();
+      } catch (error) {
+        setMessage(formMessage, error.message, true);
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
 
   document.querySelector("[data-logout]")?.addEventListener("click", async () => {
     await fetch("/api/logout", { method: "POST" });

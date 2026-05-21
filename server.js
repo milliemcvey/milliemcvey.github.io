@@ -10,7 +10,7 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "change-this-password";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
 const ROOT_DIR = __dirname;
 const PROJECTS_FILE = path.join(ROOT_DIR, "data", "projects.json");
-const PROJECT_CATEGORIES = new Set(["web", "data", "ml", "games"]);
+const PROJECT_CATEGORIES = new Set(["web", "data", "ml", "apps"]);
 const sessions = new Map();
 
 const contentTypes = {
@@ -101,6 +101,29 @@ async function handleApi(request, response, requestUrl) {
     return;
   }
 
+  if (request.method === "DELETE" && requestUrl.pathname.startsWith("/api/projects/")) {
+    if (!isAuthenticated(request)) {
+      sendJson(response, 401, { error: "Not logged in." });
+      return;
+    }
+
+    const projectId = decodeURIComponent(requestUrl.pathname.slice("/api/projects/".length)).trim();
+    await deleteProjectById(response, projectId);
+    return;
+  }
+
+  if (request.method === "POST" && requestUrl.pathname === "/api/projects/delete") {
+    if (!isAuthenticated(request)) {
+      sendJson(response, 401, { error: "Not logged in." });
+      return;
+    }
+
+    const body = await readJsonBody(request);
+    const projectId = cleanText(body.id);
+    await deleteProjectById(response, projectId);
+    return;
+  }
+
   sendJson(response, 404, { error: "API route not found." });
 }
 
@@ -163,7 +186,7 @@ function validateProject(input) {
   }
 
   if (!category) {
-    const error = new Error("Project category must be one of: web, data, ml, games.");
+    const error = new Error("Project category must be one of: web, data, ml, apps.");
     error.statusCode = 400;
     throw error;
   }
@@ -191,6 +214,24 @@ function cleanText(value) {
 function normalizeCategory(value) {
   const category = cleanText(value).toLowerCase();
   return PROJECT_CATEGORIES.has(category) ? category : "";
+}
+
+async function deleteProjectById(response, projectId) {
+  if (!projectId) {
+    sendJson(response, 400, { error: "Project id is required." });
+    return;
+  }
+
+  const projects = await readProjects();
+  const filteredProjects = projects.filter((project) => project.id !== projectId);
+
+  if (filteredProjects.length === projects.length) {
+    sendJson(response, 404, { error: "Project not found." });
+    return;
+  }
+
+  await writeProjects(filteredProjects);
+  sendJson(response, 200, { ok: true, id: projectId });
 }
 
 function slugify(value) {
