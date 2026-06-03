@@ -473,7 +473,7 @@ function createProjectDetail(project) {
         ${visibleTags.length ? `<div class="tag-list project-detail-tags">${visibleTags.map(({ tag, className }) => `<span class="${className}">${escapeHtml(tag)}</span>`).join("")}</div>` : ""}
         <div class="btn-box">
           ${projectLink}
-          <a class="btn btn-secondary" href="../HTML/contact.html">Discuss Project</a>
+          <a class="btn project-detail-contact-btn" href="../HTML/contact.html">Contact</a>
         </div>
       </div>
       <figure class="project-detail-media">
@@ -507,22 +507,41 @@ function createProjectDetail(project) {
       </aside>
     </section>
 
-    <section class="project-detail-process main-div">
-      <div class="editorial-card">
-        <span>01.</span>
-        <h3>context</h3>
-        <p>Describe the original brief, goal, or problem space for this project.</p>
-      </div>
-      <div class="editorial-card">
-        <span>02.</span>
-        <h3>build</h3>
-        <p>Capture the tools, methods, datasets, or interface decisions used in the work.</p>
-      </div>
-      <div class="editorial-card">
-        <span>03.</span>
-        <h3>reflect</h3>
-        <p>Summarise what was learned, what improved, and what could come next.</p>
-      </div>
+    <section class="project-detail-story main-div">
+      <article class="project-detail-panel project-content-block">
+        <div class="project-content-copy">
+          <p class="eyebrow">Purpose</p>
+          <h2>Why this project matters</h2>
+          <p>Use this space to explain the purpose this project holds: the problem it responds to, the skill it was designed to strengthen, or the reason it belongs in the portfolio.</p>
+        </div>
+        <figure class="project-content-image">
+          <img src="${escapeAttribute(project.imageUrl || "https://placehold.co/1536x1024")}" alt="${escapeAttribute(project.title)} supporting visual">
+        </figure>
+      </article>
+
+      <section class="project-detail-panel project-detail-note">
+        <div>
+          <span>01.</span>
+          <h3>Approach</h3>
+          <p>Summarise the method, tools, dataset, or design decisions behind the project.</p>
+        </div>
+      </section>
+
+      <section class="project-detail-panel project-detail-note">
+        <div>
+          <span>02.</span>
+          <h3>Outcome</h3>
+          <p>Highlight the finished result, what changed, or what the project demonstrates.</p>
+        </div>
+      </section>
+
+      <section class="project-detail-panel project-detail-note">
+        <div>
+          <span>03.</span>
+          <h3>Next steps</h3>
+          <p>Note what could be improved, extended, tested, or documented later.</p>
+        </div>
+      </section>
     </section>
   `;
 }
