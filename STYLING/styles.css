@@ -1391,6 +1391,22 @@ footer ul {
   accent-color: var(--primary-color);
 }
 
+.form-section-divider {
+  margin-top: 1rem;
+  border-top: 2px solid var(--section-color-2);
+  padding-top: 1.25rem;
+}
+
+.form-section-divider p {
+  margin: 0;
+}
+
+.form-section-divider p:not(.eyebrow) {
+  color: var(--muted-text);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
 .form-message {
   min-height: 1.5rem;
   color: var(--primary-color);

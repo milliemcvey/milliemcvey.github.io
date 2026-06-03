@@ -11,6 +11,15 @@
       "Node",
       "Full-Stack"
     ],
+    "details": {
+      "snapshot": "A full-stack portfolio site with a public project library, login-protected admin area, and editable project detail pages.",
+      "purposeTitle": "A home for technical progress",
+      "purposeText": "This project gives my coursework and independent builds a structured place to live. It is designed to show not only finished outputs, but also the reasoning, process, and reflection behind each project.",
+      "purposeImageUrl": "../HTML/IMAGES/PROJECTS/portfolio-website-graphic-v2.png",
+      "approach": "Built with dependency-free Node.js, static HTML/CSS, client-side rendering, and a small JSON-backed admin workflow for managing projects.",
+      "outcome": "The portfolio now supports public project cards, filtering, admin-created entries, and individual detail pages that can explain each project in more depth.",
+      "nextSteps": "Refine the detail-page writing, add editing support for existing projects, and expand the backend once the final content structure is settled."
+    },
     "featured": true,
     "createdAt": "2026-06-03T12:07:46.262Z"
   },
@@ -26,6 +35,15 @@
       "Scikit-learn",
       "Pandas"
     ],
+    "details": {
+      "snapshot": "A machine learning project exploring regression-based prediction for Premier League table standings.",
+      "purposeTitle": "Practising model evaluation",
+      "purposeText": "The purpose of this project is to strengthen applied machine learning skills by connecting football data, feature selection, regression modelling, and result interpretation.",
+      "purposeImageUrl": "../HTML/IMAGES/PROJECTS/epl-predictor-graphic.png",
+      "approach": "Prepare historical football data, choose relevant features, train regression models, and compare predicted standings against known outcomes.",
+      "outcome": "The project demonstrates how statistical features can be transformed into a predictive model and evaluated against a real-world sports problem.",
+      "nextSteps": "Test more feature combinations, compare alternative algorithms, and document the model limitations more clearly."
+    },
     "featured": true,
     "createdAt": "2026-05-20T00:00:00.000Z"
   },
@@ -41,6 +59,15 @@
       "Pandas",
       "Matplotlib"
     ],
+    "details": {
+      "snapshot": "A data analysis project exploring Netflix content trends through cleaning, grouping, and visualisation.",
+      "purposeTitle": "Turning media data into insight",
+      "purposeText": "This project practises exploratory data analysis by using a familiar entertainment dataset to ask clearer questions about content, genres, and release patterns.",
+      "purposeImageUrl": "../HTML/IMAGES/PROJECTS/netflix-analysis-graphic.png",
+      "approach": "Clean the dataset, inspect missing values, group by useful attributes, and create charts that make content patterns easier to understand.",
+      "outcome": "The analysis demonstrates data cleaning, summarisation, and visual storytelling with Python libraries.",
+      "nextSteps": "Add stronger narrative conclusions, improve chart polish, and explore interactive visualisations."
+    },
     "featured": true,
     "createdAt": "2026-05-20T00:00:00.000Z"
   },
@@ -56,6 +83,15 @@
       "Pandas",
       "Matplotlib"
     ],
+    "details": {
+      "snapshot": "A weather data analysis project focused on identifying and visualising climate and weather patterns.",
+      "purposeTitle": "Exploring patterns in real-world data",
+      "purposeText": "This project helps practise working with time-based environmental data, turning raw measurements into clearer trends and visual explanations.",
+      "purposeImageUrl": "../HTML/IMAGES/PROJECTS/weather-analysis-graphic.png",
+      "approach": "Prepare weather records, inspect trends, and create visualisations that communicate changes across time and conditions.",
+      "outcome": "The project shows data preparation, exploratory analysis, and chart-based explanation using Python.",
+      "nextSteps": "Add more robust time-series comparisons, explore seasonal patterns, and refine the final visual story."
+    },
     "featured": true,
     "createdAt": "2026-05-20T00:00:00.000Z"
   }

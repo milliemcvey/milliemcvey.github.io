@@ -453,6 +453,7 @@ async function setupProjectDetailPage() {
 
 function createProjectDetail(project) {
   const tags = Array.isArray(project.tags) ? project.tags : [];
+  const details = normalizeProjectDetails(project);
   const visibleTags = tags
     .map((tag) => ({ tag: String(tag || "").trim(), className: getTagClass(tag) }))
     .filter(({ tag }) => tag);
@@ -485,8 +486,7 @@ function createProjectDetail(project) {
       <article class="project-detail-panel project-detail-overview">
         <p class="eyebrow">Overview</p>
         <h2>Project snapshot</h2>
-        <p>${escapeHtml(project.description)}</p>
-        <p>This page is a front-end template preview. The copy and structure can be refined here before adding backend support for richer project details.</p>
+        <p>${escapeHtml(details.snapshot)}</p>
       </article>
 
       <aside class="project-detail-panel project-detail-facts">
@@ -511,11 +511,11 @@ function createProjectDetail(project) {
       <article class="project-detail-panel project-content-block">
         <div class="project-content-copy">
           <p class="eyebrow">Purpose</p>
-          <h2>Why this project matters</h2>
-          <p>Use this space to explain the purpose this project holds: the problem it responds to, the skill it was designed to strengthen, or the reason it belongs in the portfolio.</p>
+          <h2>${escapeHtml(details.purposeTitle)}</h2>
+          <p>${escapeHtml(details.purposeText)}</p>
         </div>
         <figure class="project-content-image">
-          <img src="${escapeAttribute(project.imageUrl || "https://placehold.co/1536x1024")}" alt="${escapeAttribute(project.title)} supporting visual">
+          <img src="${escapeAttribute(details.purposeImageUrl)}" alt="${escapeAttribute(project.title)} supporting visual">
         </figure>
       </article>
 
@@ -523,7 +523,7 @@ function createProjectDetail(project) {
         <div>
           <span>01.</span>
           <h3>Approach</h3>
-          <p>Summarise the method, tools, dataset, or design decisions behind the project.</p>
+          <p>${escapeHtml(details.approach)}</p>
         </div>
       </section>
 
@@ -531,7 +531,7 @@ function createProjectDetail(project) {
         <div>
           <span>02.</span>
           <h3>Outcome</h3>
-          <p>Highlight the finished result, what changed, or what the project demonstrates.</p>
+          <p>${escapeHtml(details.outcome)}</p>
         </div>
       </section>
 
@@ -539,11 +539,29 @@ function createProjectDetail(project) {
         <div>
           <span>03.</span>
           <h3>Next steps</h3>
-          <p>Note what could be improved, extended, tested, or documented later.</p>
+          <p>${escapeHtml(details.nextSteps)}</p>
         </div>
       </section>
     </section>
   `;
+}
+
+function normalizeProjectDetails(project) {
+  const details = project.details || {};
+
+  return {
+    snapshot: cleanDisplayText(details.snapshot) || cleanDisplayText(project.description),
+    purposeTitle: cleanDisplayText(details.purposeTitle) || "Why this project matters",
+    purposeText: cleanDisplayText(details.purposeText) || "Use this space to explain the purpose this project holds: the problem it responds to, the skill it was designed to strengthen, or the reason it belongs in the portfolio.",
+    purposeImageUrl: cleanDisplayText(details.purposeImageUrl) || project.imageUrl || "https://placehold.co/1536x1024",
+    approach: cleanDisplayText(details.approach) || "Summarise the method, tools, dataset, or design decisions behind the project.",
+    outcome: cleanDisplayText(details.outcome) || "Highlight the finished result, what changed, or what the project demonstrates.",
+    nextSteps: cleanDisplayText(details.nextSteps) || "Note what could be improved, extended, tested, or documented later."
+  };
+}
+
+function cleanDisplayText(value) {
+  return String(value || "").trim();
 }
 
 function setupLoginForm() {
@@ -600,6 +618,18 @@ async function setupAdminPage() {
     const payload = Object.fromEntries(new FormData(form));
 
     payload.featured = form.elements.featured.checked;
+    payload.details = {
+      snapshot: payload.snapshot,
+      purposeTitle: payload.purposeTitle,
+      purposeText: payload.purposeText,
+      purposeImageUrl: payload.purposeImageUrl,
+      approach: payload.approach,
+      outcome: payload.outcome,
+      nextSteps: payload.nextSteps
+    };
+    ["snapshot", "purposeTitle", "purposeText", "purposeImageUrl", "approach", "outcome", "nextSteps"].forEach((field) => {
+      delete payload[field];
+    });
     setMessage(message, "Saving project...");
 
     try {

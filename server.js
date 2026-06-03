@@ -181,7 +181,8 @@ async function readProjects() {
   const projects = JSON.parse(file);
   return projects.map((project) => ({
     ...project,
-    category: normalizeCategory(project.category) || "data"
+    category: normalizeCategory(project.category) || "data",
+    details: normalizeProjectDetails(project.details, project)
   }));
 }
 
@@ -246,6 +247,7 @@ function validateProject(input, existingProjects = []) {
     imageUrl: cleanUrl(input.imageUrl, "https://placehold.co/600x400"),
     projectUrl: cleanUrl(input.projectUrl, "#"),
     tags: cleanTags(input.tags),
+    details: normalizeProjectDetails(input.details || input, { title, description, imageUrl: cleanUrl(input.imageUrl, "https://placehold.co/600x400") }),
     featured: Boolean(input.featured),
     createdAt: new Date().toISOString()
   };
@@ -253,6 +255,10 @@ function validateProject(input, existingProjects = []) {
 
 function cleanText(value) {
   return String(value || "").trim().slice(0, 2000);
+}
+
+function cleanLongText(value) {
+  return String(value || "").trim().slice(0, 6000);
 }
 
 function normalizeCategory(value) {
@@ -357,6 +363,20 @@ function cleanUrl(value, fallback) {
   } catch {
     return fallback;
   }
+}
+
+function normalizeProjectDetails(input = {}, project = {}) {
+  const description = cleanLongText(project.description);
+
+  return {
+    snapshot: cleanLongText(input.snapshot) || description,
+    purposeTitle: cleanText(input.purposeTitle) || "Why this project matters",
+    purposeText: cleanLongText(input.purposeText) || "Use this space to explain the purpose this project holds: the problem it responds to, the skill it was designed to strengthen, or the reason it belongs in the portfolio.",
+    purposeImageUrl: cleanUrl(input.purposeImageUrl, cleanUrl(project.imageUrl, "https://placehold.co/1536x1024")),
+    approach: cleanLongText(input.approach) || "Summarise the method, tools, dataset, or design decisions behind the project.",
+    outcome: cleanLongText(input.outcome) || "Highlight the finished result, what changed, or what the project demonstrates.",
+    nextSteps: cleanLongText(input.nextSteps) || "Note what could be improved, extended, tested, or documented later."
+  };
 }
 
 function uniqueProjectId(title, existingProjects) {

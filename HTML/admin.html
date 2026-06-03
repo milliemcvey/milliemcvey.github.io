@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin | Millie McVey</title>
 
-    <link rel="stylesheet" href="../STYLING/styles.css?v=project-note-sections">
-    <script src="../SCRIPT/script.js?v=project-note-sections" defer></script>
+    <link rel="stylesheet" href="../STYLING/styles.css?v=project-details-backend">
+    <script src="../SCRIPT/script.js?v=project-details-backend" defer></script>
 </head>
 <body>
     <div class="nav main-div">
@@ -66,6 +66,38 @@
                 <label class="checkbox-label">
                     <input type="checkbox" name="featured" checked>
                     Featured on homepage
+                </label>
+                <div class="form-section-divider">
+                    <p class="eyebrow">Project page details</p>
+                    <p>Customise the individual project detail page.</p>
+                </div>
+                <label>
+                    Snapshot text
+                    <textarea name="snapshot" rows="4" placeholder="A fuller project overview for the snapshot section..."></textarea>
+                </label>
+                <label>
+                    Purpose title
+                    <input type="text" name="purposeTitle" placeholder="Why this project matters">
+                </label>
+                <label>
+                    Purpose text
+                    <textarea name="purposeText" rows="5" placeholder="Explain the purpose this project holds..."></textarea>
+                </label>
+                <label>
+                    Purpose image URL
+                    <input type="text" name="purposeImageUrl" placeholder="Leave blank to reuse the main project image">
+                </label>
+                <label>
+                    Approach
+                    <textarea name="approach" rows="4" placeholder="Methods, tools, datasets, or design decisions..."></textarea>
+                </label>
+                <label>
+                    Outcome
+                    <textarea name="outcome" rows="4" placeholder="Finished result, demonstration, or impact..."></textarea>
+                </label>
+                <label>
+                    Next steps
+                    <textarea name="nextSteps" rows="4" placeholder="Improvements, extensions, tests, or documentation..."></textarea>
                 </label>
                 <button class="btn" type="submit">Add Project</button>
                 <p class="form-message" data-form-message></p>
