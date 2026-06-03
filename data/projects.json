@@ -1,12 +1,30 @@
 [
   {
+    "id": "portfolio-website",
+    "title": "Portfolio Website",
+    "description": "Full-stack personal portfolio website development",
+    "imageUrl": "https://placehold.co/600x400",
+    "projectUrl": "#",
+    "tags": [
+      "JavaScript",
+      "Node",
+      "Full-Stack"
+    ],
+    "featured": true,
+    "createdAt": "2026-05-24T12:50:55.427Z"
+  },
+  {
     "id": "epl-predictor-model",
     "title": "EPL Predictor Model",
     "description": "Linear regression ML model for predicting Premier League table standings.",
     "category": "ml",
     "imageUrl": "../HTML/IMAGES/PROJECTS/epl-predictor-graphic.png",
     "projectUrl": "#",
-    "tags": ["Python", "Scikit-learn", "Pandas"],
+    "tags": [
+      "Python",
+      "Scikit-learn",
+      "Pandas"
+    ],
     "featured": true,
     "createdAt": "2026-05-20T00:00:00.000Z"
   },
@@ -17,7 +35,11 @@
     "category": "data",
     "imageUrl": "../HTML/IMAGES/PROJECTS/netflix-analysis-graphic.png",
     "projectUrl": "#",
-    "tags": ["Python", "Pandas", "Matplotlib"],
+    "tags": [
+      "Python",
+      "Pandas",
+      "Matplotlib"
+    ],
     "featured": true,
     "createdAt": "2026-05-20T00:00:00.000Z"
   },
@@ -28,7 +50,11 @@
     "category": "data",
     "imageUrl": "../HTML/IMAGES/PROJECTS/weather-analysis-graphic.png",
     "projectUrl": "#",
-    "tags": ["Python", "Pandas", "Matplotlib"],
+    "tags": [
+      "Python",
+      "Pandas",
+      "Matplotlib"
+    ],
     "featured": true,
     "createdAt": "2026-05-20T00:00:00.000Z"
   }
