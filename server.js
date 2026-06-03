@@ -5,6 +5,7 @@ const path = require("node:path");
 const { URL } = require("node:url");
 
 const PORT = Number(process.env.PORT || 3000);
+const HOST = process.env.HOST || "localhost";
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "millie";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "change-this-password";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
@@ -46,8 +47,17 @@ const server = http.createServer(async (request, response) => {
   }
 });
 
-server.listen(PORT, () => {
-  console.log(`Portfolio running at http://localhost:${PORT}`);
+server.on("error", (error) => {
+  if (error.code === "EADDRINUSE") {
+    console.error(`Port ${PORT} is already in use. Stop the existing server or set PORT to another value.`);
+    process.exit(1);
+  }
+
+  throw error;
+});
+
+server.listen(PORT, HOST, () => {
+  console.log(`Portfolio running at http://${HOST}:${PORT}`);
   console.log(`Admin username: ${ADMIN_USERNAME}`);
   if (ADMIN_PASSWORD === "change-this-password") {
     console.warn("Using the default admin password. Set ADMIN_PASSWORD before deploying.");

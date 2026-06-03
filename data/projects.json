@@ -1,20 +1,5 @@
 [
   {
-    "id": "portfolio-website",
-    "title": "Portfolio Website",
-    "description": "Full-stack personal portfolio website development",
-    "imageUrl": "https://placehold.co/600x400",
-    "projectUrl": "#",
-    "tags": [
-      "JavaScript",
-      "Node",
-      "Full-Stack"
-    ],
-    "featured": true,
-    "createdAt": "2026-05-24T12:50:55.427Z",
-    "category": "data"
-  },
-  {
     "id": "epl-predictor-model",
     "title": "EPL Predictor Model",
     "description": "Linear regression ML model for predicting Premier League table standings.",

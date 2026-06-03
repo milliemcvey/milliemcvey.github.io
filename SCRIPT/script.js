@@ -503,19 +503,12 @@ async function setupAdminPage() {
       button.disabled = true;
 
       try {
-        let response = await fetch(`/api/projects/${encodeURIComponent(projectId)}`, {
-          method: "DELETE"
+        const response = await fetch("/api/projects/delete", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: projectId })
         });
-        let result = await response.json();
-
-        if (!response.ok) {
-          response = await fetch("/api/projects/delete", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id: projectId })
-          });
-          result = await response.json();
-        }
+        const result = await response.json();
 
         if (!response.ok) {
           throw new Error(result.error || "Could not delete project.");
