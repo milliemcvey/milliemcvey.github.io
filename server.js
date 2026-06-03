@@ -8,10 +8,13 @@ const PORT = Number(process.env.PORT || 3000);
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "millie";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "change-this-password";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
+const MAX_JSON_BODY_BYTES = 1024 * 64;
 const ROOT_DIR = __dirname;
 const PROJECTS_FILE = path.join(ROOT_DIR, "data", "projects.json");
 const PROJECT_CATEGORIES = new Set(["web", "data", "ml", "apps"]);
+const PUBLIC_PATH_PREFIXES = ["/HTML/", "/SCRIPT/", "/STYLING/"];
 const sessions = new Map();
+let projectsLock = Promise.resolve();
 
 const contentTypes = {
   ".css": "text/css; charset=utf-8",
@@ -45,7 +48,10 @@ const server = http.createServer(async (request, response) => {
 
 server.listen(PORT, () => {
   console.log(`Portfolio running at http://localhost:${PORT}`);
-  console.log(`Admin login: ${ADMIN_USERNAME} / ${ADMIN_PASSWORD}`);
+  console.log(`Admin username: ${ADMIN_USERNAME}`);
+  if (ADMIN_PASSWORD === "change-this-password") {
+    console.warn("Using the default admin password. Set ADMIN_PASSWORD before deploying.");
+  }
 });
 
 async function handleApi(request, response, requestUrl) {
@@ -64,7 +70,7 @@ async function handleApi(request, response, requestUrl) {
 
     const token = crypto.randomBytes(32).toString("hex");
     sessions.set(token, Date.now() + SESSION_TTL_MS);
-    response.setHeader("Set-Cookie", `portfolio_session=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=28800`);
+    setSessionCookie(response, token, request);
     sendJson(response, 200, { username: ADMIN_USERNAME });
     return;
   }
@@ -72,7 +78,7 @@ async function handleApi(request, response, requestUrl) {
   if (request.method === "POST" && requestUrl.pathname === "/api/logout") {
     const token = getSessionToken(request);
     sessions.delete(token);
-    response.setHeader("Set-Cookie", "portfolio_session=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0");
+    clearSessionCookie(response, request);
     sendJson(response, 200, { ok: true });
     return;
   }
@@ -93,10 +99,15 @@ async function handleApi(request, response, requestUrl) {
       return;
     }
 
-    const project = validateProject(await readJsonBody(request));
-    const projects = await readProjects();
-    projects.unshift(project);
-    await writeProjects(projects);
+    const input = await readJsonBody(request);
+    const project = await withProjectsLock(async () => {
+      const projects = await readProjects();
+      const nextProject = validateProject(input, projects);
+      projects.unshift(nextProject);
+      await writeProjects(projects);
+      return nextProject;
+    });
+
     sendJson(response, 201, project);
     return;
   }
@@ -128,10 +139,10 @@ async function handleApi(request, response, requestUrl) {
 }
 
 async function serveStatic(pathname, response) {
-  const cleanPath = pathname === "/" ? "/HTML/index.html" : decodeURIComponent(pathname);
-  const filePath = path.normalize(path.join(ROOT_DIR, cleanPath));
+  const cleanPath = pathname === "/" ? "/HTML/index.html" : safeDecodePath(pathname);
+  const filePath = path.resolve(ROOT_DIR, `.${cleanPath}`);
 
-  if (!filePath.startsWith(ROOT_DIR)) {
+  if (!isPublicPath(cleanPath) || !isPathInsideRoot(filePath)) {
     sendText(response, 403, "Forbidden");
     return;
   }
@@ -139,7 +150,16 @@ async function serveStatic(pathname, response) {
   try {
     const file = await fs.readFile(filePath);
     const extension = path.extname(filePath).toLowerCase();
-    response.writeHead(200, { "Content-Type": contentTypes[extension] || "application/octet-stream" });
+    const headers = {
+      "Content-Type": contentTypes[extension] || "application/octet-stream",
+      "X-Content-Type-Options": "nosniff"
+    };
+
+    if ([".css", ".js", ".png", ".jpg", ".jpeg", ".svg", ".webp"].includes(extension)) {
+      headers["Cache-Control"] = "public, max-age=3600";
+    }
+
+    response.writeHead(200, headers);
     response.end(file);
   } catch {
     sendText(response, 404, "Page not found");
@@ -157,13 +177,24 @@ async function readProjects() {
 
 async function writeProjects(projects) {
   await fs.mkdir(path.dirname(PROJECTS_FILE), { recursive: true });
-  await fs.writeFile(PROJECTS_FILE, `${JSON.stringify(projects, null, 2)}\n`);
+  const temporaryFile = `${PROJECTS_FILE}.${process.pid}.${Date.now()}.tmp`;
+  await fs.writeFile(temporaryFile, `${JSON.stringify(projects, null, 2)}\n`);
+  await fs.rename(temporaryFile, PROJECTS_FILE);
 }
 
 async function readJsonBody(request) {
   const chunks = [];
+  let byteLength = 0;
 
   for await (const chunk of request) {
+    byteLength += chunk.byteLength;
+
+    if (byteLength > MAX_JSON_BODY_BYTES) {
+      const error = new Error("Request body is too large.");
+      error.statusCode = 413;
+      throw error;
+    }
+
     chunks.push(chunk);
   }
 
@@ -171,10 +202,16 @@ async function readJsonBody(request) {
     return {};
   }
 
-  return JSON.parse(Buffer.concat(chunks).toString("utf8"));
+  try {
+    return JSON.parse(Buffer.concat(chunks).toString("utf8"));
+  } catch {
+    const error = new Error("Request body must be valid JSON.");
+    error.statusCode = 400;
+    throw error;
+  }
 }
 
-function validateProject(input) {
+function validateProject(input, existingProjects = []) {
   const title = cleanText(input.title);
   const description = cleanText(input.description);
   const category = normalizeCategory(input.category);
@@ -192,23 +229,20 @@ function validateProject(input) {
   }
 
   return {
-    id: slugify(title),
+    id: uniqueProjectId(title, existingProjects),
     title,
     description,
     category,
-    imageUrl: cleanText(input.imageUrl) || "https://placehold.co/600x400",
-    projectUrl: cleanText(input.projectUrl) || "#",
-    tags: cleanText(input.tags)
-      .split(",")
-      .map((tag) => tag.trim())
-      .filter(Boolean),
+    imageUrl: cleanUrl(input.imageUrl, "https://placehold.co/600x400"),
+    projectUrl: cleanUrl(input.projectUrl, "#"),
+    tags: cleanTags(input.tags),
     featured: Boolean(input.featured),
     createdAt: new Date().toISOString()
   };
 }
 
 function cleanText(value) {
-  return String(value || "").trim();
+  return String(value || "").trim().slice(0, 2000);
 }
 
 function normalizeCategory(value) {
@@ -222,15 +256,23 @@ async function deleteProjectById(response, projectId) {
     return;
   }
 
-  const projects = await readProjects();
-  const filteredProjects = projects.filter((project) => project.id !== projectId);
+  const deleted = await withProjectsLock(async () => {
+    const projects = await readProjects();
+    const filteredProjects = projects.filter((project) => project.id !== projectId);
 
-  if (filteredProjects.length === projects.length) {
+    if (filteredProjects.length === projects.length) {
+      return false;
+    }
+
+    await writeProjects(filteredProjects);
+    return true;
+  });
+
+  if (!deleted) {
     sendJson(response, 404, { error: "Project not found." });
     return;
   }
 
-  await writeProjects(filteredProjects);
   sendJson(response, 200, { ok: true, id: projectId });
 }
 
@@ -252,6 +294,7 @@ function isAuthenticated(request) {
   }
 
   sessions.set(token, Date.now() + SESSION_TTL_MS);
+  cleanupExpiredSessions();
   return true;
 }
 
@@ -262,11 +305,112 @@ function getSessionToken(request) {
 }
 
 function sendJson(response, statusCode, payload) {
-  response.writeHead(statusCode, { "Content-Type": "application/json; charset=utf-8" });
+  response.writeHead(statusCode, {
+    "Content-Type": "application/json; charset=utf-8",
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff"
+  });
   response.end(JSON.stringify(payload));
 }
 
 function sendText(response, statusCode, text) {
-  response.writeHead(statusCode, { "Content-Type": "text/plain; charset=utf-8" });
+  response.writeHead(statusCode, {
+    "Content-Type": "text/plain; charset=utf-8",
+    "X-Content-Type-Options": "nosniff"
+  });
   response.end(text);
+}
+
+function cleanTags(value) {
+  const tags = Array.isArray(value) ? value : cleanText(value).split(",");
+
+  return tags
+    .map((tag) => cleanText(tag).slice(0, 40))
+    .filter(Boolean)
+    .slice(0, 12);
+}
+
+function cleanUrl(value, fallback) {
+  const url = cleanText(value);
+
+  if (!url) {
+    return fallback;
+  }
+
+  if (url === "#" || url.startsWith("/") || url.startsWith("../") || url.startsWith("./")) {
+    return url;
+  }
+
+  try {
+    const parsedUrl = new URL(url);
+    return ["http:", "https:"].includes(parsedUrl.protocol) ? url : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function uniqueProjectId(title, existingProjects) {
+  const baseId = slugify(title);
+  const existingIds = new Set(existingProjects.map((project) => project.id));
+
+  if (!existingIds.has(baseId)) {
+    return baseId;
+  }
+
+  let suffix = 2;
+  while (existingIds.has(`${baseId}-${suffix}`)) {
+    suffix += 1;
+  }
+
+  return `${baseId}-${suffix}`;
+}
+
+function withProjectsLock(task) {
+  const run = projectsLock.then(task, task);
+  projectsLock = run.catch(() => {});
+  return run;
+}
+
+function safeDecodePath(pathname) {
+  try {
+    return decodeURIComponent(pathname);
+  } catch {
+    const error = new Error("Invalid URL path.");
+    error.statusCode = 400;
+    throw error;
+  }
+}
+
+function isPathInsideRoot(filePath) {
+  const relativePath = path.relative(ROOT_DIR, filePath);
+  return relativePath === "" || (!relativePath.startsWith("..") && !path.isAbsolute(relativePath));
+}
+
+function isPublicPath(pathname) {
+  const normalizedPath = pathname.replaceAll("\\", "/");
+  return PUBLIC_PATH_PREFIXES.some((prefix) => normalizedPath.startsWith(prefix));
+}
+
+function setSessionCookie(response, token, request) {
+  const secure = isSecureRequest(request) ? "; Secure" : "";
+  response.setHeader("Set-Cookie", `portfolio_session=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${Math.floor(SESSION_TTL_MS / 1000)}${secure}`);
+}
+
+function clearSessionCookie(response, request) {
+  const secure = isSecureRequest(request) ? "; Secure" : "";
+  response.setHeader("Set-Cookie", `portfolio_session=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0${secure}`);
+}
+
+function isSecureRequest(request) {
+  return request.headers["x-forwarded-proto"] === "https";
+}
+
+function cleanupExpiredSessions() {
+  const now = Date.now();
+
+  for (const [token, expiresAt] of sessions.entries()) {
+    if (expiresAt < now) {
+      sessions.delete(token);
+    }
+  }
 }
