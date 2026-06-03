@@ -122,6 +122,29 @@ async function handleApi(request, response, requestUrl) {
     return;
   }
 
+  if (request.method === "POST" && requestUrl.pathname === "/api/projects/update") {
+    if (!isAuthenticated(request)) {
+      sendJson(response, 401, { error: "Not logged in." });
+      return;
+    }
+
+    const body = await readJsonBody(request);
+    const projectId = cleanText(body.id);
+    await updateProjectById(response, projectId, body.project || body);
+    return;
+  }
+
+  if (request.method === "PUT" && requestUrl.pathname.startsWith("/api/projects/")) {
+    if (!isAuthenticated(request)) {
+      sendJson(response, 401, { error: "Not logged in." });
+      return;
+    }
+
+    const projectId = decodeURIComponent(requestUrl.pathname.slice("/api/projects/".length)).trim();
+    await updateProjectById(response, projectId, await readJsonBody(request));
+    return;
+  }
+
   if (request.method === "DELETE" && requestUrl.pathname.startsWith("/api/projects/")) {
     if (!isAuthenticated(request)) {
       sendJson(response, 401, { error: "Not logged in." });
@@ -290,6 +313,44 @@ async function deleteProjectById(response, projectId) {
   }
 
   sendJson(response, 200, { ok: true, id: projectId });
+}
+
+async function updateProjectById(response, projectId, input) {
+  if (!projectId) {
+    sendJson(response, 400, { error: "Project id is required." });
+    return;
+  }
+
+  const updatedProject = await withProjectsLock(async () => {
+    const projects = await readProjects();
+    const projectIndex = projects.findIndex((project) => project.id === projectId);
+
+    if (projectIndex === -1) {
+      return null;
+    }
+
+    const existingProject = projects[projectIndex];
+    const otherProjects = projects.filter((project) => project.id !== projectId);
+    const project = validateProject(input, otherProjects);
+
+    const nextProject = {
+      ...project,
+      id: existingProject.id,
+      createdAt: existingProject.createdAt || project.createdAt,
+      updatedAt: new Date().toISOString()
+    };
+
+    projects[projectIndex] = nextProject;
+    await writeProjects(projects);
+    return nextProject;
+  });
+
+  if (!updatedProject) {
+    sendJson(response, 404, { error: "Project not found." });
+    return;
+  }
+
+  sendJson(response, 200, updatedProject);
 }
 
 function slugify(value) {

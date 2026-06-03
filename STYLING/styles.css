@@ -654,6 +654,16 @@ p {
   box-shadow: 5px 5px 0 var(--accent-color-strong);
 }
 
+.btn-edit {
+  background-color: var(--section-color);
+  color: var(--section-color-2);
+}
+
+.btn-edit:hover {
+  background-color: var(--secondary-color);
+  color: var(--section-color-2);
+}
+
 /* =========================
    PROJECT DETAIL TEMPLATE
 ========================= */
@@ -1342,6 +1352,13 @@ footer ul {
   text-align: left;
 }
 
+.admin-form.is-editing {
+  border: 2px solid var(--section-color-2);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  background-color: var(--secondary-color);
+}
+
 .admin-form label {
   display: grid;
   gap: 0.45rem;
@@ -1405,6 +1422,12 @@ footer ul {
   color: var(--muted-text);
   font-size: 0.95rem;
   font-weight: 700;
+}
+
+.admin-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
 }
 
 .form-message {

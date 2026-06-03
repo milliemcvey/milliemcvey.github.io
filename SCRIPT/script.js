@@ -275,8 +275,8 @@ async function renderProjectGrids() {
     }
 
     visibleProjects.forEach((project) => {
-      const showAdminDelete = Boolean(project.id) && Boolean(grid.closest(".admin-preview"));
-      grid.appendChild(createProjectCard(project, { showAdminDelete }));
+      const showAdminControls = Boolean(project.id) && Boolean(grid.closest(".admin-preview"));
+      grid.appendChild(createProjectCard(project, { showAdminControls }));
     });
   });
 
@@ -334,7 +334,7 @@ function formatCategory(category) {
 function createProjectCard(project, options = {}) {
   const card = document.createElement("article");
   const tags = Array.isArray(project.tags) ? project.tags : [];
-  const { showAdminDelete = false } = options;
+  const { showAdminControls = false } = options;
   const detailUrl = project.id
     ? `../HTML/project-detail.html?id=${encodeURIComponent(project.id)}`
     : project.projectUrl || "#";
@@ -352,7 +352,7 @@ function createProjectCard(project, options = {}) {
       ${visibleTags.length ? `<div class="tag-list">${visibleTags.map(({ tag, className }) => `<span class="${className}">${escapeHtml(tag)}</span>`).join("")}</div>` : ""}
       <div class="btn-box">
         <a class="btn" href="${escapeAttribute(detailUrl)}">View</a>
-        ${showAdminDelete ? `<button class="btn btn-delete" type="button" data-delete-project="${escapeAttribute(project.id)}">Delete</button>` : ""}
+        ${showAdminControls ? `<button class="btn btn-edit" type="button" data-edit-project="${escapeAttribute(project.id)}">Edit</button><button class="btn btn-delete" type="button" data-delete-project="${escapeAttribute(project.id)}">Delete</button>` : ""}
       </div>
     </div>
   `;
@@ -605,6 +605,10 @@ async function setupAdminPage() {
     return;
   }
 
+  let editingProjectId = "";
+  const submitButton = form.querySelector("[data-project-submit]");
+  const cancelEditButton = form.querySelector("[data-cancel-edit]");
+
   const authenticated = await confirmAdminSession();
 
   if (!authenticated) {
@@ -615,28 +619,16 @@ async function setupAdminPage() {
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const message = form.querySelector("[data-form-message]");
-    const payload = Object.fromEntries(new FormData(form));
+    const payload = getProjectFormPayload(form);
+    const isEditing = Boolean(editingProjectId);
 
-    payload.featured = form.elements.featured.checked;
-    payload.details = {
-      snapshot: payload.snapshot,
-      purposeTitle: payload.purposeTitle,
-      purposeText: payload.purposeText,
-      purposeImageUrl: payload.purposeImageUrl,
-      approach: payload.approach,
-      outcome: payload.outcome,
-      nextSteps: payload.nextSteps
-    };
-    ["snapshot", "purposeTitle", "purposeText", "purposeImageUrl", "approach", "outcome", "nextSteps"].forEach((field) => {
-      delete payload[field];
-    });
-    setMessage(message, "Saving project...");
+    setMessage(message, isEditing ? "Saving changes..." : "Saving project...");
 
     try {
-      const response = await fetch("/api/projects", {
+      const response = await fetch(isEditing ? "/api/projects/update" : "/api/projects", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(isEditing ? { id: editingProjectId, project: payload } : payload)
       });
 
       const result = await response.json();
@@ -645,13 +637,21 @@ async function setupAdminPage() {
         throw new Error(result.error || "Could not save project.");
       }
 
-      form.reset();
-      form.elements.featured.checked = true;
-      setMessage(message, "Project added.");
+      resetProjectFormMode(form);
+      editingProjectId = "";
+      updateAdminFormMode(form, editingProjectId, submitButton, cancelEditButton);
+      setMessage(message, isEditing ? "Project updated." : "Project added.");
       await renderProjectGrids();
     } catch (error) {
       setMessage(message, error.message, true);
     }
+  });
+
+  cancelEditButton?.addEventListener("click", () => {
+    editingProjectId = "";
+    resetProjectFormMode(form);
+    updateAdminFormMode(form, editingProjectId, submitButton, cancelEditButton);
+    setMessage(form.querySelector("[data-form-message]"), "Edit cancelled.");
   });
 
   const previewGrid = document.querySelector(".admin-preview [data-project-grid]");
@@ -660,6 +660,25 @@ async function setupAdminPage() {
   if (previewGrid && !previewGrid.dataset.boundDelete) {
     previewGrid.dataset.boundDelete = "true";
     previewGrid.addEventListener("click", async (event) => {
+      const editButton = event.target.closest("[data-edit-project]");
+
+      if (editButton) {
+        const projectId = editButton.getAttribute("data-edit-project");
+        const project = allProjects.find((item) => item.id === projectId);
+
+        if (!project) {
+          setMessage(formMessage, "Project could not be loaded for editing.", true);
+          return;
+        }
+
+        editingProjectId = project.id;
+        populateProjectForm(form, project);
+        updateAdminFormMode(form, editingProjectId, submitButton, cancelEditButton);
+        setMessage(formMessage, `Editing ${project.title}.`);
+        form.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+
       const button = event.target.closest("[data-delete-project]");
 
       if (!button) {
@@ -692,6 +711,11 @@ async function setupAdminPage() {
         }
 
         setMessage(formMessage, "Project deleted.");
+        if (editingProjectId === projectId) {
+          editingProjectId = "";
+          resetProjectFormMode(form);
+          updateAdminFormMode(form, editingProjectId, submitButton, cancelEditButton);
+        }
         await renderProjectGrids();
       } catch (error) {
         setMessage(formMessage, error.message, true);
@@ -713,6 +737,63 @@ async function confirmAdminSession() {
     return response.ok;
   } catch {
     return false;
+  }
+}
+
+function getProjectFormPayload(form) {
+  const payload = Object.fromEntries(new FormData(form));
+
+  payload.featured = form.elements.featured.checked;
+  payload.details = {
+    snapshot: payload.snapshot,
+    purposeTitle: payload.purposeTitle,
+    purposeText: payload.purposeText,
+    purposeImageUrl: payload.purposeImageUrl,
+    approach: payload.approach,
+    outcome: payload.outcome,
+    nextSteps: payload.nextSteps
+  };
+
+  ["snapshot", "purposeTitle", "purposeText", "purposeImageUrl", "approach", "outcome", "nextSteps"].forEach((field) => {
+    delete payload[field];
+  });
+
+  return payload;
+}
+
+function populateProjectForm(form, project) {
+  const details = normalizeProjectDetails(project);
+
+  form.elements.title.value = project.title || "";
+  form.elements.description.value = project.description || "";
+  form.elements.imageUrl.value = project.imageUrl || "";
+  form.elements.projectUrl.value = project.projectUrl === "#" ? "" : project.projectUrl || "";
+  form.elements.category.value = normalizeCategory(project.category) || "data";
+  form.elements.tags.value = Array.isArray(project.tags) ? project.tags.join(", ") : "";
+  form.elements.featured.checked = project.featured !== false;
+  form.elements.snapshot.value = details.snapshot || "";
+  form.elements.purposeTitle.value = details.purposeTitle || "";
+  form.elements.purposeText.value = details.purposeText || "";
+  form.elements.purposeImageUrl.value = details.purposeImageUrl || "";
+  form.elements.approach.value = details.approach || "";
+  form.elements.outcome.value = details.outcome || "";
+  form.elements.nextSteps.value = details.nextSteps || "";
+}
+
+function resetProjectFormMode(form) {
+  form.reset();
+  form.elements.featured.checked = true;
+}
+
+function updateAdminFormMode(form, editingProjectId, submitButton, cancelEditButton) {
+  form.classList.toggle("is-editing", Boolean(editingProjectId));
+
+  if (submitButton) {
+    submitButton.textContent = editingProjectId ? "Save Changes" : "Add Project";
+  }
+
+  if (cancelEditButton) {
+    cancelEditButton.hidden = !editingProjectId;
   }
 }
 

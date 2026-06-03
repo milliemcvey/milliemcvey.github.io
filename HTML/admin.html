@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin | Millie McVey</title>
 
-    <link rel="stylesheet" href="../STYLING/styles.css?v=project-details-backend">
-    <script src="../SCRIPT/script.js?v=project-details-backend" defer></script>
+    <link rel="stylesheet" href="../STYLING/styles.css?v=admin-project-edit">
+    <script src="../SCRIPT/script.js?v=admin-project-edit" defer></script>
 </head>
 <body>
     <div class="nav main-div">
@@ -99,7 +99,10 @@
                     Next steps
                     <textarea name="nextSteps" rows="4" placeholder="Improvements, extensions, tests, or documentation..."></textarea>
                 </label>
-                <button class="btn" type="submit">Add Project</button>
+                <div class="admin-form-actions">
+                    <button class="btn" type="submit" data-project-submit>Add Project</button>
+                    <button class="btn btn-secondary" type="button" data-cancel-edit hidden>Cancel Edit</button>
+                </div>
                 <p class="form-message" data-form-message></p>
             </form>
         </section>

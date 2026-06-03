@@ -46,53 +46,5 @@
     },
     "featured": true,
     "createdAt": "2026-05-20T00:00:00.000Z"
-  },
-  {
-    "id": "netflix-analysis",
-    "title": "Netflix Analysis",
-    "description": "Data analysis and visualization of Netflix content and viewer behaviour.",
-    "category": "data",
-    "imageUrl": "../HTML/IMAGES/PROJECTS/netflix-analysis-graphic.png",
-    "projectUrl": "#",
-    "tags": [
-      "Python",
-      "Pandas",
-      "Matplotlib"
-    ],
-    "details": {
-      "snapshot": "A data analysis project exploring Netflix content trends through cleaning, grouping, and visualisation.",
-      "purposeTitle": "Turning media data into insight",
-      "purposeText": "This project practises exploratory data analysis by using a familiar entertainment dataset to ask clearer questions about content, genres, and release patterns.",
-      "purposeImageUrl": "../HTML/IMAGES/PROJECTS/netflix-analysis-graphic.png",
-      "approach": "Clean the dataset, inspect missing values, group by useful attributes, and create charts that make content patterns easier to understand.",
-      "outcome": "The analysis demonstrates data cleaning, summarisation, and visual storytelling with Python libraries.",
-      "nextSteps": "Add stronger narrative conclusions, improve chart polish, and explore interactive visualisations."
-    },
-    "featured": true,
-    "createdAt": "2026-05-20T00:00:00.000Z"
-  },
-  {
-    "id": "weather-data-analysis",
-    "title": "Weather Data Analysis",
-    "description": "Analysis and visualization of weather patterns and climate data.",
-    "category": "data",
-    "imageUrl": "../HTML/IMAGES/PROJECTS/weather-analysis-graphic.png",
-    "projectUrl": "#",
-    "tags": [
-      "Python",
-      "Pandas",
-      "Matplotlib"
-    ],
-    "details": {
-      "snapshot": "A weather data analysis project focused on identifying and visualising climate and weather patterns.",
-      "purposeTitle": "Exploring patterns in real-world data",
-      "purposeText": "This project helps practise working with time-based environmental data, turning raw measurements into clearer trends and visual explanations.",
-      "purposeImageUrl": "../HTML/IMAGES/PROJECTS/weather-analysis-graphic.png",
-      "approach": "Prepare weather records, inspect trends, and create visualisations that communicate changes across time and conditions.",
-      "outcome": "The project shows data preparation, exploratory analysis, and chart-based explanation using Python.",
-      "nextSteps": "Add more robust time-series comparisons, explore seasonal patterns, and refine the final visual story."
-    },
-    "featured": true,
-    "createdAt": "2026-05-20T00:00:00.000Z"
   }
 ]
