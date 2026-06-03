@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   connectButtons();
   setNavShadow();
   renderProjectGrids();
+  setupProjectDetailPage();
   setupLoginForm();
   setupAdminPage();
 });
@@ -68,12 +69,13 @@ function updateGreeting() {
 
 function markActiveNavigation() {
   const currentPage = window.location.pathname.split("/").pop() || "index.html";
+  const activePage = currentPage === "project-detail.html" ? "projects.html" : currentPage;
   const navLinks = document.querySelectorAll(".nav-list a");
 
   navLinks.forEach((link) => {
     const linkPage = link.getAttribute("href").split("/").pop();
 
-    if (linkPage === currentPage) {
+    if (linkPage === activePage) {
       link.classList.add("active");
       link.setAttribute("aria-current", "page");
     }
@@ -333,9 +335,12 @@ function createProjectCard(project, options = {}) {
   const card = document.createElement("article");
   const tags = Array.isArray(project.tags) ? project.tags : [];
   const { showAdminDelete = false } = options;
+  const detailUrl = project.id
+    ? `../HTML/project-detail.html?id=${encodeURIComponent(project.id)}`
+    : project.projectUrl || "#";
   const visibleTags = tags
-    .map((tag) => ({ tag, className: getTagClass(tag) }))
-    .filter(({ className }) => className);
+    .map((tag) => ({ tag: String(tag || "").trim(), className: getTagClass(tag) }))
+    .filter(({ tag }) => tag);
 
   card.className = "card secondary-div";
   card.innerHTML = `
@@ -346,7 +351,7 @@ function createProjectCard(project, options = {}) {
       <p>${escapeHtml(project.description)}</p>
       ${visibleTags.length ? `<div class="tag-list">${visibleTags.map(({ tag, className }) => `<span class="${className}">${escapeHtml(tag)}</span>`).join("")}</div>` : ""}
       <div class="btn-box">
-        <a class="btn" href="${escapeAttribute(project.projectUrl || "#")}" ${project.projectUrl && project.projectUrl !== "#" ? 'target="_blank" rel="noopener noreferrer"' : ""}>View</a>
+        <a class="btn" href="${escapeAttribute(detailUrl)}">View</a>
         ${showAdminDelete ? `<button class="btn btn-delete" type="button" data-delete-project="${escapeAttribute(project.id)}">Delete</button>` : ""}
       </div>
     </div>
@@ -385,8 +390,24 @@ function setupCategoryFilters() {
 
 function getTagClass(tag) {
   const normalizedTag = String(tag || "").toLowerCase();
-  const languages = ["python", "javascript", "html", "css", "java", "c++"];
-  const libraries = ["pandas", "numpy", "matplotlib", "scikit-learn", "seaborn"];
+  const languages = ["python", "javascript", "typescript", "html", "css", "java", "c++"];
+  const libraries = [
+    "api",
+    "backend",
+    "express",
+    "frontend",
+    "full-stack",
+    "matplotlib",
+    "next.js",
+    "node",
+    "node.js",
+    "numpy",
+    "pandas",
+    "react",
+    "scikit-learn",
+    "seaborn",
+    "vue"
+  ];
 
   if (languages.includes(normalizedTag)) {
     return "tag-language";
@@ -396,7 +417,114 @@ function getTagClass(tag) {
     return "tag-library";
   }
 
-  return null;
+  return "tag-library";
+}
+
+async function setupProjectDetailPage() {
+  const detailRoot = document.querySelector("[data-project-detail]");
+
+  if (!detailRoot) {
+    return;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const projectId = params.get("id");
+  const projects = normalizeProjects(await getProjects());
+  const project = projects.find((item) => item.id === projectId);
+
+  if (!project) {
+    detailRoot.innerHTML = `
+      <section class="project-detail-empty secondary-div">
+        <p class="eyebrow">Project details</p>
+        <h1>Project not found</h1>
+        <p>This project may have been removed or the link may be out of date.</p>
+        <div class="btn-box">
+          <a class="btn" href="../HTML/projects.html">Back to Projects</a>
+        </div>
+      </section>
+    `;
+    document.title = "Project Not Found | Millie McVey";
+    return;
+  }
+
+  document.title = `${project.title} | Millie McVey`;
+  detailRoot.innerHTML = createProjectDetail(project);
+}
+
+function createProjectDetail(project) {
+  const tags = Array.isArray(project.tags) ? project.tags : [];
+  const visibleTags = tags
+    .map((tag) => ({ tag: String(tag || "").trim(), className: getTagClass(tag) }))
+    .filter(({ tag }) => tag);
+  const formattedDate = project.createdAt
+    ? new Intl.DateTimeFormat("en-GB", { month: "long", year: "numeric" }).format(new Date(project.createdAt))
+    : "In progress";
+  const projectLink = project.projectUrl && project.projectUrl !== "#"
+    ? `<a class="btn" href="${escapeAttribute(project.projectUrl)}" target="_blank" rel="noopener noreferrer">Open Project</a>`
+    : "";
+
+  return `
+    <section class="project-detail-hero main-div">
+      <div class="project-detail-copy">
+        <a class="project-back-link" href="../HTML/projects.html">Back to Projects</a>
+        <p class="eyebrow">${escapeHtml(formatCategory(project.category))} project</p>
+        <h1>${escapeHtml(project.title)}</h1>
+        <p>${escapeHtml(project.description)}</p>
+        ${visibleTags.length ? `<div class="tag-list project-detail-tags">${visibleTags.map(({ tag, className }) => `<span class="${className}">${escapeHtml(tag)}</span>`).join("")}</div>` : ""}
+        <div class="btn-box">
+          ${projectLink}
+          <a class="btn btn-secondary" href="../HTML/contact.html">Discuss Project</a>
+        </div>
+      </div>
+      <figure class="project-detail-media">
+        <img src="${escapeAttribute(project.imageUrl || "https://placehold.co/1536x1024")}" alt="${escapeAttribute(project.title)} project preview">
+      </figure>
+    </section>
+
+    <section class="project-detail-body main-div">
+      <article class="project-detail-panel project-detail-overview">
+        <p class="eyebrow">Overview</p>
+        <h2>Project snapshot</h2>
+        <p>${escapeHtml(project.description)}</p>
+        <p>This page is a front-end template preview. The copy and structure can be refined here before adding backend support for richer project details.</p>
+      </article>
+
+      <aside class="project-detail-panel project-detail-facts">
+        <dl>
+          <div>
+            <dt>Category</dt>
+            <dd>${escapeHtml(formatCategory(project.category))}</dd>
+          </div>
+          <div>
+            <dt>Status</dt>
+            <dd>${project.featured === false ? "Library project" : "Featured project"}</dd>
+          </div>
+          <div>
+            <dt>Added</dt>
+            <dd>${escapeHtml(formattedDate)}</dd>
+          </div>
+        </dl>
+      </aside>
+    </section>
+
+    <section class="project-detail-process main-div">
+      <div class="editorial-card">
+        <span>01.</span>
+        <h3>context</h3>
+        <p>Describe the original brief, goal, or problem space for this project.</p>
+      </div>
+      <div class="editorial-card">
+        <span>02.</span>
+        <h3>build</h3>
+        <p>Capture the tools, methods, datasets, or interface decisions used in the work.</p>
+      </div>
+      <div class="editorial-card">
+        <span>03.</span>
+        <h3>reflect</h3>
+        <p>Summarise what was learned, what improved, and what could come next.</p>
+      </div>
+    </section>
+  `;
 }
 
 function setupLoginForm() {

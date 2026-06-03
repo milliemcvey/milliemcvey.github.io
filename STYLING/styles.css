@@ -554,11 +554,10 @@ p {
 .tag-list {
   display: flex;
   justify-content: center;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 0.45rem;
   width: 100%;
   margin-top: 0.45rem;
-  overflow: hidden;
 }
 
 .tag-list span {
@@ -652,6 +651,151 @@ p {
   background-color: var(--section-color-2);
   color: var(--light-text);
   box-shadow: 5px 5px 0 var(--accent-color-strong);
+}
+
+/* =========================
+   PROJECT DETAIL TEMPLATE
+========================= */
+.project-detail-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(18rem, 1.1fr);
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: center;
+  padding: clamp(2rem, 6vw, 5rem) clamp(1.25rem, 6vw, 5rem);
+  border-bottom: 2px solid var(--section-color-2);
+  background-color: var(--accent-color);
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0)),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(34, 34, 34, 0.04) 0 1px,
+      transparent 1px 28px
+    );
+}
+
+.project-detail-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.project-back-link {
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.project-detail-copy h1 {
+  max-width: 11ch;
+  color: var(--section-color-2);
+  font-size: clamp(3rem, 8vw, 6.6rem);
+  line-height: 0.9;
+}
+
+.project-detail-copy > p:not(.eyebrow) {
+  max-width: 44rem;
+  color: var(--section-color-2);
+  font-size: clamp(1.05rem, 1.8vw, 1.28rem);
+  font-weight: 650;
+}
+
+.project-detail-tags {
+  justify-content: flex-start;
+  margin-top: 0.2rem;
+}
+
+.project-detail-media {
+  margin: 0;
+  border: 2px solid var(--section-color-2);
+  border-radius: var(--border-radius);
+  background-color: var(--section-color-2);
+  box-shadow: 12px 12px 0 var(--section-color-2);
+  overflow: hidden;
+}
+
+.project-detail-media img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+.project-detail-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(17rem, 24rem);
+  gap: clamp(1rem, 3vw, 2rem);
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 6vw, 5rem);
+  background-color: var(--secondary-color);
+}
+
+.project-detail-panel {
+  border: 2px solid var(--section-color-2);
+  border-radius: var(--border-radius);
+  background-color: var(--section-color);
+  box-shadow: 8px 8px 0 var(--section-color-2);
+  padding: clamp(1.35rem, 3vw, 2.25rem);
+}
+
+.project-detail-overview h2 {
+  margin-bottom: 1rem;
+  color: var(--section-color-2);
+  font-size: clamp(2rem, 4vw, 3.4rem);
+}
+
+.project-detail-overview p {
+  color: var(--section-color-2);
+  font-weight: 650;
+}
+
+.project-detail-facts dl {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+}
+
+.project-detail-facts div {
+  border-bottom: 2px solid var(--section-color-2);
+  padding-bottom: 1rem;
+}
+
+.project-detail-facts div:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.project-detail-facts dt {
+  color: var(--primary-color);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.project-detail-facts dd {
+  margin: 0.25rem 0 0;
+  color: var(--section-color-2);
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+
+.project-detail-process {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 6vw, 5rem);
+  background-color: var(--accent-color);
+}
+
+.project-detail-empty {
+  width: min(100% - 2rem, 44rem);
+  margin: clamp(3rem, 8vw, 6rem) auto;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border: 2px solid var(--section-color-2);
+  border-radius: var(--border-radius);
+  background-color: var(--section-color);
+  box-shadow: 10px 10px 0 var(--section-color-2);
+  text-align: center;
 }
 
 .icon-banner {
