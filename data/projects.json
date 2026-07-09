@@ -1,5 +1,29 @@
 [
   {
+    "id": "house-price-predictor",
+    "title": "House Price Predictor",
+    "description": "Small Machine Learning Model Based on California Housing Dataset",
+    "category": "ml",
+    "imageUrl": "https://placehold.co/600x400",
+    "projectUrl": "#",
+    "tags": [
+      "Python",
+      "Machine Learning",
+      "Regression"
+    ],
+    "details": {
+      "snapshot": "Small Machine Learning Model Based on California Housing Dataset",
+      "purposeTitle": "Why this project matters",
+      "purposeText": "Use this space to explain the purpose this project holds: the problem it responds to, the skill it was designed to strengthen, or the reason it belongs in the portfolio.",
+      "purposeImageUrl": "https://placehold.co/600x400",
+      "approach": "Summarise the method, tools, dataset, or design decisions behind the project.",
+      "outcome": "Highlight the finished result, what changed, or what the project demonstrates.",
+      "nextSteps": "Note what could be improved, extended, tested, or documented later."
+    },
+    "featured": true,
+    "createdAt": "2026-06-07T20:44:39.952Z"
+  },
+  {
     "id": "portfolio-website",
     "title": "Portfolio Website",
     "description": "Full-stack personal portfolio website development",
